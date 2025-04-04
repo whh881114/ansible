@@ -1,0 +1,34 @@
+---
+- name: download package
+  unarchive:
+    src: "{{ pkg }}"
+    dest: /usr/local
+    remote_src: yes
+
+- name: configure kube-prometheus-stack
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    variable_start_string: '[['
+    variable_end_string: ']]'
+  with_items:
+    - { src: "values.yaml", dest: "/usr/local/kube-prometheus-stack/values.yaml" }
+    - { src: "values_kube-state-metrics.yaml", dest: "/usr/local/kube-prometheus-stack/charts/kube-state-metrics/values.yaml" }
+    - { src: "values_prometheus-node-exporter.yaml", dest: "/usr/local/kube-prometheus-stack/charts/prometheus-node-exporter/values.yaml" }
+    - { src: "values_grafana.yaml", dest: "/usr/local/kube-prometheus-stack/charts/grafana/values.yaml" }
+
+- name: install kube-prometheus-stack
+  shell: |
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    helm uninstall kube-prometheus-stack -n {{ namespace }}
+    helm install --values values.yaml --create-namespace --namespace {{ namespace }} kube-prometheus-stack .
+  args:
+    chdir: "/usr/local/kube-prometheus-stack"
+  ignore_errors: yes
+  register: kube_prometheus_stack
+
+- name: show kube-prometheus-stack log
+  debug:
+    msg:
+      - "{{ kube_prometheus_stack.stdout_lines }}"
+      - "{{ kube_prometheus_stack.stderr_lines }}"

@@ -1,0 +1,33 @@
+mysqld:
+  - job_name: mysqld-server
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: mysqld
+          type: server
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/mysql/mysqld.log*
+
+  - job_name: mysqld-slow
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: mysqld
+          type: slow
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/lib/mysql/slow.log*
+
+  - job_name: mysqld-history
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: mysqld
+          type: history
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /root/.mysql_history

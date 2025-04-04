@@ -1,0 +1,22 @@
+[Unit]
+Description="HashiCorp Consul - A service mesh solution"
+Documentation=https://www.consul.io/
+Requires=network-online.target
+After=network-online.target
+ConditionFileNotEmpty=/etc/consul.d/consul.hcl
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/consul.d/consul.env
+User={{ user }}
+Group={{ group }}
+ExecStartPre=/bin/bash -c "cd {{ data_dir }} && rm -rf *"
+ExecStart=/usr/local/bin/consul agent -config-dir={{ conf_dir }}
+ExecReload=/bin/kill --signal HUP $MAINPID
+KillMode=process
+KillSignal=SIGTERM
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

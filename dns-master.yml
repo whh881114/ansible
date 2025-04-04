@@ -1,0 +1,37 @@
+---
+- name: dns master
+  hosts: 10.255.0.121
+  user: root
+  roles:
+    - role: common
+      tags:
+        - common
+
+    - role: zabbix-agent2
+      tags:
+        - zabbix
+        - zabbix-agent
+        - zabbix-agent2
+
+    - role: consul
+      tags:
+        - consul
+      vars:
+        services:
+          - name: dns-master
+            port: 53
+
+    - role: bind
+      tags:
+        - dns
+        - bind
+      vars:
+        master_role: true
+        sn: 2024121901      # bind角色中更新解析配置后，此sn需要同步修改，需要比前值大，这样slave服务会同步更新解析。
+
+    - role: promtail
+      tags:
+        - promtail
+      vars:
+        scrape_projects:
+          - dns

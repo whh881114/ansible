@@ -1,0 +1,22 @@
+dns:
+  - job_name: dns-run
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: dns
+          type: run
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/named/data/named.run*
+
+  - job_name: dns-query
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: dns
+          type: query
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/named/data/query.log*

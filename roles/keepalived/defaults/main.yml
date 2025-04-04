@@ -1,0 +1,14 @@
+---
+pkgs:
+  - keepalived
+
+vrrp_model: "ha-nginx-master-master"
+
+vrrp_master_state: MASTER
+vrrp_master_priority: 100
+
+vrrp_backup_state: BACKUP
+vrrp_backup_priority: 99
+
+# 当master中心跳检查失败时，配置文件中对应权重会和此变量求和，最终是减少，但是这个值一定要比backup的权重小，否则vip不会漂移。
+vrrp_priority_weight: -10

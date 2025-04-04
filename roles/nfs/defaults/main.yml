@@ -1,0 +1,7 @@
+---
+pkgs:
+  - nfs-utils
+  - nfs-utils-coreos
+  - nfs4-acl-tools
+
+projects: ""

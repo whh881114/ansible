@@ -1,0 +1,36 @@
+---
+- name: disable swap
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^\s*([^#].*\sswap\s.*)$'
+    line: '# \1'
+    backrefs: yes
+
+- name: disable swap
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^\s*#\s*([^#].*\sswap\s.*)$'
+    line: '# \1'
+    backrefs: yes
+    state: present
+
+- name: install packages
+  package:
+    pkg: "{{ pkgs }}"
+    state: present
+  notify:
+    - restart-kubelet
+
+- name: config modules-load.d
+  copy:
+    src: k8s.conf
+    dest: /etc/modules-load.d/k8s.conf
+
+- name: config containerd
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: config.toml, dest: /etc/containerd/config.toml }
+  notify:
+    - restart-containerd

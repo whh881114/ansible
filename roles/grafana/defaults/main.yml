@@ -1,0 +1,3 @@
+---
+pkgs:
+  - "ftp://central-server.freedom.org/grafana-11.1.0-1.x86_64.rpm"

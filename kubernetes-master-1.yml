@@ -1,0 +1,110 @@
+---
+- name: kubernetes master-1
+  hosts: 10.255.1.12
+  user: root
+  roles:
+    - role: kubernetes
+      tags:
+        - kubernetes
+        - k8s
+
+    - role: helm
+      tags:
+        - helm
+
+    - role: cilium
+      tags:
+        - cilium
+        - cni
+
+    - role: argo-cd
+      tags:
+        - argo-cd
+        - argocd
+
+#    - role: istio
+#      tags:
+#        - istio
+#
+#    - role: ingress-nginx
+#      tags:
+#        - ingress
+#        - ingress-nginx
+#
+#    - role: nfs-provisioner
+#      tags:
+#        - storageclass
+#        - storage-class
+#        - sc
+#      vars:
+#        storage_class_name: infra
+#        storage_storage_class_provisioner_name: infra
+#        nfs_path: /data1/kubernetes/infra
+#        nfs_volume_name: infra
+#
+#    - role: nfs-provisioner
+#      tags:
+#        - storageclass
+#        - storage-class
+#        - sc
+#      vars:
+#        storage_class_name: mysql
+#        storage_storage_class_provisioner_name: mysql
+#        nfs_path: /data1/kubernetes/mysql
+#        nfs_volume_name: mysql
+#
+#    - role: nfs-provisioner
+#      tags:
+#        - storageclass
+#        - storage-class
+#        - sc
+#      vars:
+#        storage_class_name: redis
+#        storage_storage_class_provisioner_name: redis
+#        nfs_path: /data1/kubernetes/redis
+#        nfs_volume_name: redis
+#
+#    - role: cert-manager
+#      tags:
+#        - cert-manager
+#
+#    - role: ssl
+#      tags:
+#        - ssl
+#      vars:
+#        project: kubernetes
+#
+#    - role: kubernetes-loki
+#      tags:
+#        - loki
+#
+#    - role: kubernetes-loki
+#      tags:
+#        - loki
+#
+#    - role: kubernetes-promtail
+#      tags:
+#        - promtail
+#
+#    - role: kubernetes-dashboard
+#      tags:
+#        - kubernetes-dashboard
+#        - k8s-dash
+#
+#    - role: metrics-server
+#      tags:
+#        - metrics-server
+#
+#    - role: kube-prometheus-stack
+#      tags:
+#        - kube-prometheus-stack
+#        - prometheus
+#
+#    - role: thanos
+#      tags:
+#        - thanos
+#
+#    - role: argo-rollouts
+#      tags:
+#        - argo-rollouts
+#        - argorollouts

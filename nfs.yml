@@ -1,0 +1,33 @@
+---
+- name: Initialize the host by the playbook
+  hosts: 10.255.2.100
+  user: root
+  roles:
+    - role: common
+      tags:
+        - common
+
+    - role: zabbix-agent2
+      tags:
+        - zabbix
+        - zabbix-agent
+        - zabbix-agent2
+
+    - role: consul
+      tags:
+        - consul
+      vars:
+        services:
+          - name: nfs-server
+            port: 111
+
+    - role: nfs
+      tags:
+        - nfs
+      vars:
+        projects:
+          - kubernetes
+
+    - role: promtail
+      tags:
+        - promtail

@@ -1,0 +1,5 @@
+---
+- include: docker.io.yml
+- include: quay.io.yml
+- include: registry.k8s.io.yml
+- include: others.yml

@@ -1,0 +1,31 @@
+---
+- name: download package
+  unarchive:
+    src: "{{ pkg }}"
+    dest: /usr/local
+    remote_src: yes
+
+- name: configure kubernetes-dashboard
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    variable_start_string: '[['
+    variable_end_string: ']]'
+  with_items:
+    - { src: "values.yaml", dest: "/usr/local/kubernetes-dashboard/values.yaml" }
+
+- name: install kubernetes-dashboard
+  shell: |
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    helm uninstall --namespace {{ namespace }} kubernetes-dashboard
+    helm install --values values.yaml --create-namespace --namespace {{ namespace }} kubernetes-dashboard .
+  args:
+    chdir: "/usr/local/kubernetes-dashboard"
+  ignore_errors: yes
+  register: install_kubernetes_dashboard
+
+- name: show install kubernetes-dashboard log
+  debug:
+    msg:
+      - "{{ install_kubernetes_dashboard.stdout_lines }}"
+      - "{{ install_kubernetes_dashboard.stderr_lines }}"

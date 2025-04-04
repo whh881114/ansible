@@ -1,0 +1,23 @@
+---
+- name: Initialize the host by default playbook
+  hosts: "{{ hosts }}"
+  user: root
+  roles:
+    - role: common
+      tags:
+        - common
+
+    - role: zabbix-agent2
+      tags:
+        - zabbix
+        - zabbix-agent
+        - zabbix-agent2
+
+    - role: consul
+      tags:
+        - consul
+      vars:
+        agent_role: true
+        services:
+          - name: zabbix-agent
+            port: 10050

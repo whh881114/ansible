@@ -1,0 +1,32 @@
+{% set domain_name = item %}
+$TTL 600
+@       IN  SOA dns01.{{ domain_name }}. feedback.{{ domain_name }}. (
+        {{ sn }}  ; serial
+        1D          ; refresh
+        1H          ; retry
+        1W          ; expire
+        3H )        ; minimum
+
+        NS  ns01.freedom.org.
+        NS  ns02.freedom.org.
+ns01    A   {{ master_ip }}
+ns02    A   {{ slave_ip }}
+
+
+master-1    IN      A       10.255.1.12
+master-2    IN      A       10.255.1.22
+master-3    IN      A       10.255.1.23
+worker-1    IN      A       10.255.1.24
+worker-2    IN      A       10.255.1.25
+worker-3    IN      A       10.255.1.26
+worker-4    IN      A       10.255.1.27
+worker-5    IN      A       10.255.1.28
+worker-6    IN      A       10.255.1.29
+
+; 将apiserver指向haproxy主机地址
+apiserver    IN      A       10.255.1.122
+
+; 因为freedom.org无tls证书，即使有，那也是用自签的，那么使用起来存在局限性，所以不使用内网域名，
+; 但是为了保证在内网环境的完整性，还是加上解析，但仅限于http协议请求。
+*.ingress-istio IN  A   10.255.3.101
+*.ingress-nginx IN  A   10.255.3.102

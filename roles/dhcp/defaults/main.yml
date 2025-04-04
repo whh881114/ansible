@@ -1,0 +1,11 @@
+---
+pkgs:
+  - dhcp-client
+  - dhcp-common
+  - dhcp-relay
+  - dhcp-server
+  - dhcpcd
+  - dhcpd-pools
+  - dhcpdump
+  - dhcping
+

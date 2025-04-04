@@ -1,0 +1,51 @@
+server:
+  http_listen_address: 0.0.0.0
+  http_listen_port: 9080
+  grpc_listen_port: 0
+  log_level: info
+
+positions:
+  filename: {{ position_file }}
+
+# 链接loki服务端的参数
+clients:
+  - url: {{ loki_server }}
+
+scrape_configs:
+  - job_name: "messages"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "messages"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/messages*
+
+  - job_name: "secure"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "secure"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/secure*
+
+  - job_name: zabbix-agent
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: zabbix
+          type: agent
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/zabbix/zabbix_agent2.log*
+
+{% if scrape_projects %}
+{% for i in scrape_projects %}
+  {{ lookup('vars', i) | to_nice_yaml(indent=2) | indent(2,False) }}
+{# 添加空行，增加代码可读性。 #}
+{% endfor %}
+{% endif %}

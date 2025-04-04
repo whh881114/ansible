@@ -1,0 +1,5 @@
+---
+- include: template.yml
+
+- include: template_feature_{{ template_feature }}.yml
+  when: template_feature is defined

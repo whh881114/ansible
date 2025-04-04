@@ -1,0 +1,13 @@
+---
+- name: configure {{ project }} project
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "0__default.conf", dest: "/etc/nginx/conf.d/0__default.conf"}
+    - { src: "upstream.conf", dest: "/etc/nginx/conf.d/upstream.conf"}
+    - { src: "minio.conf", dest: "/etc/nginx/conf.d/minio.conf"}
+    - { src: "grafana.conf", dest: "/etc/nginx/conf.d/grafana.conf"}
+    - { src: "harbor.conf", dest: "/etc/nginx/conf.d/harbor.conf"}
+    - { src: "zabbix.conf", dest: "/etc/nginx/conf.d/zabbix.conf"}
+  notify: reload-nginx

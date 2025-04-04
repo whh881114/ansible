@@ -1,0 +1,37 @@
+---
+- name: Initialize the host by the playbook
+  hosts: 10.255.1.9
+  user: root
+  roles:
+    - role: keepalived
+      tags:
+        - keepalived
+        - ha
+      vars:
+        vrrp_model: ha-nginx-master-master
+        vrrp_master_state: MASTER
+        vrrp_master_priority: 100
+        vrrp_master_ip: 10.255.1.111/22
+        vrrp_backup_state: BACKUP
+        vrrp_backup_priority: 99
+        vrrp_backup_ip: 10.255.1.222/22
+        vrrp_priority_weight: -10
+
+
+- name: Initialize the host by the playbook
+  hosts: 10.255.1.10
+  user: root
+  roles:
+    - role: keepalived
+      tags:
+        - keepalived
+        - ha
+      vars:
+        vrrp_model: ha-nginx-master-master
+        vrrp_master_state: BACKUP
+        vrrp_master_priority: 99
+        vrrp_master_ip: 10.255.1.111/22
+        vrrp_backup_state: MASTER
+        vrrp_backup_priority: 100
+        vrrp_backup_ip: 10.255.1.222/22
+        vrrp_priority_weight: -10

@@ -1,0 +1,81 @@
+// named.rfc1912.zones:
+//
+// Provided by Red Hat caching-nameserver package
+//
+// ISC BIND named zone configuration for zones recommended by
+// RFC 1912 section 4.1 : localhost TLDs and address zones
+// and http://www.ietf.org/internet-drafts/draft-ietf-dnsop-default-local-zones-02.txt
+// (c)2007 R W Franks
+//
+// See /usr/share/doc/bind*/sample/ for example named configuration files.
+//
+
+zone "localhost.localdomain" IN {
+        type master;
+        file "named.localhost";
+        allow-update { none; };
+};
+
+zone "localhost" IN {
+        type master;
+        file "named.localhost";
+        allow-update { none; };
+};
+
+zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" IN {
+        type master;
+        file "named.loopback";
+        allow-update { none; };
+};
+
+zone "1.0.0.127.in-addr.arpa" IN {
+        type master;
+        file "named.loopback";
+        allow-update { none; };
+};
+
+zone "0.in-addr.arpa" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+// 转发测试
+// zone "whh.org" {
+//     type forward;
+//     forward first;
+//     forwarders {  10.255.0.221; };
+// };
+
+// 虚拟机解析到POD
+// zone "cluster.local" IN {
+//     type forward;
+//     forward first;
+//     forwarders { 10.255.0.8 port 32253; 10.255.0.9 port 32253; };
+// };
+
+// 虚拟机解析到POD，最开始以为cluster.local是特殊域名，所以在coredns中配置了on-k8s.org域，后来证实了cluster.local依然可以解析到。
+// 2020/10/13
+// zone "on-k8s.org" IN {
+//     type forward;
+//     forward first;
+//     forwarders { 10.255.0.8 port 32253; 10.255.0.9 port 32253; };
+// };
+
+{% for zone in zones %}
+zone "{{ zone }}" IN {
+    type master;
+    file "data/{{ zone }}.zone";
+    allow-update { none; };
+};
+
+{% endfor %}
+
+{% for zone in rev_zones %}
+zone "{{ zone.ip }}.in-addr.arpa" IN {
+    type master;
+    file "data/{{ zone.domain_name }}.rev.zone";
+    allow-update { none; };
+};
+
+{% endfor %}

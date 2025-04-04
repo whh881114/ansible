@@ -1,0 +1,22 @@
+nginx_minio_console:
+  - job_name: "nginx-minio-console-access"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "nginx"
+          type: "minio-console-access"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/nginx/minio-console.idc.{{ wan_domain }}.log*
+
+  - job_name: "nginx-minio-console-error"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "nginx"
+          type: "minio-console-error"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/nginx/minio-console.idc.{{ wan_domain }}.err*

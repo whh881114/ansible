@@ -1,0 +1,19 @@
+---
+- name: init kubernetes
+  shell: |
+    kubeadm config images pull --image-repository {{ image_repository }}
+    
+    kubeadm init \
+            --image-repository={{ image_repository }} \
+            --kubernetes-version=v{{ version }} \
+            --pod-network-cidr={{ pod_network_cidr }} \
+            --service-cidr={{ service_cidr }} \
+            --control-plane-endpoint={{ api_server }} \
+            --upload-certs
+  register: kubeadm_init_log
+
+- name: show kubeadm init log
+  debug:
+    msg:
+      - "{{ kubeadm_init_log.stdout_lines }}"
+      - "{{ kubeadm_init_log.stderr_lines }}"

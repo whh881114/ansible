@@ -1,0 +1,14 @@
+---
+- name: download package
+  unarchive:
+    src: "{{pkg }}"
+    dest: "/tmp"
+    mode: "0755"
+    remote_src: yes
+
+- name: install helm bin
+  copy:
+    src: "/tmp/linux-amd64/helm"
+    dest: "/usr/local/bin"
+    mode: "0755"
+    remote_src: yes

@@ -1,0 +1,19 @@
+---
+- name: install docker-ce and docker-compose packages
+  yum:
+    name: "{{ pkgs }}"
+    state: present
+
+- name: create data directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ data_root_dir }}"
+
+- name: create docker daemon.json file
+  template:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+  notify:
+    - restart-docker

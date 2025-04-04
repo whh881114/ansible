@@ -1,0 +1,13 @@
+{% set domain_name = item.domain_name %}
+$TTL 1D
+@       IN      SOA     {{ domain_name }}.     feedback.{{ domain_name }}. (
+                        {{ sn }}       ; serial
+                        1D      ; refresh
+                        1H      ; retry
+                        1W      ; expire
+                        3H )    ; minimum
+        IN      NS      ns01.{{ domain_name }}.
+        IN      NS      ns02.{{ domain_name }}.
+
+123.0     IN      PTR     foreman.freedom.org.
+11.1      IN      PTR     central-server.freedom.org.

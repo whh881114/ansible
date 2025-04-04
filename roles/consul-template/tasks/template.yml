@@ -1,0 +1,31 @@
+---
+# tasks file for consul-template
+- name: create consul-template dir
+  file: 
+    path: "{{ item }}"
+    state: directory 
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - "{{ root_dir }}"
+    - "{{ conf_dir }}"
+
+- name: download consul-template package
+  unarchive:
+    src: "{{ pkg }}"
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: copy systemd conf
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - { src: consul-template.service.j2, dest: /usr/lib/systemd/system/consul-template.service }
+    - { src: consul-template.hcl, dest: "{{ conf_dir }}/consul-template.hcl" }
+  notify:
+    - systemctl-daemon-reload
+    - restart-consul-template
+

@@ -1,0 +1,17 @@
+---
+- name: register rhsm
+  shell: |
+    set -o pipefail && curl -sS --insecure 'https://central-server.freedom.org/register?activation_keys=RockyLinux-9-x86_64&force=true&location_id=2&organization_id=1&update_packages=false' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3MjE4Nzc1MjYsImp0aSI6IjAyMmFkZWJmZDdlMWI0ZGEzNjY1NmM3YzUyZWZjMWFkZDk3MjI4NDY4ZGI3OWFiMjA2ODZhZjY1ODdkOGQ5NDMiLCJzY29wZSI6InJlZ2lzdHJhdGlvbiNnbG9iYWwgcmVnaXN0cmF0aW9uI2hvc3QifQ.QtbAYumj7VX-lJa61eyhmJx90KSx9GYAICvo8goLkjA' | bash
+  ignore_errors: true
+
+- name: install common rpm package
+  yum:
+    name: "{{ pkgs }}"
+    state: present
+
+- name: set ulimit in limits.conf
+  blockinfile:
+    path: /etc/security/limits.conf
+    block: |
+      * soft nofile 1000000
+      * hard nofile 1000001

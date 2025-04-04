@@ -1,0 +1,6 @@
+---
+- include: init.yml
+  when: init is defined
+
+- include: reset.yml
+  when: reset is defined

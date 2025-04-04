@@ -1,0 +1,32 @@
+---
+- name: download image
+  shell: |
+    docker pull "{{ mirror_registry }}/{{ item }}"
+    docker tag  "{{ mirror_registry }}/{{ item }}" "{{ registry }}/{{ item }}"
+    docker push "{{ registry }}/{{ item }}"
+  loop:
+    - quay.io/argoproj/argo-rollouts:v1.7.2
+    - quay.io/argoproj/argocd:v2.12.1
+    - quay.io/thanos/thanos:v0.36.0
+    - quay.io/snowdrop/cert-manager-webhook-godaddy:0.3.0
+    - quay.io/prometheus/node-exporter:v1.8.2
+    - quay.io/kiwigrid/k8s-sidecar:1.27.4
+    - quay.io/prometheus-operator/prometheus-config-reloader:v0.75.2
+    - quay.io/prometheus/alertmanager:v0.27.0
+    - quay.io/prometheus-operator/admission-webhook:v0.75.2
+    - quay.io/prometheus-operator/prometheus-operator:v0.75.2
+    - quay.io/prometheus/prometheus:v2.54.0
+    - quay.io/prometheus/prometheus:v2.46.0
+    - quay.io/prometheus/alertmanager:v0.26.0
+    - quay.io/prometheus/node-exporter:v1.6.1
+    - quay.io/prometheus-operator/prometheus-operator:v0.67.1
+    - quay.io/prometheus/blackbox-exporter:v0.24.0
+    - quay.io/brancz/kube-rbac-proxy:v0.14.2
+    - quay.io/jetstack/cert-manager-cainjector:v1.15.2
+    - quay.io/jetstack/cert-manager-controller:v1.15.2
+    - quay.io/jetstack/cert-manager-webhook:v1.15.2
+    - quay.io/jetstack/cert-manager-acmesolver:v1.15.2
+    - quay.io/jetstack/cert-manager-startupapicheck:v1.15.2
+    - quay.io/cilium/operator-generic:v1.15.6
+    - quay.io/cilium/cilium:v1.15.6
+  ignore_errors: yes

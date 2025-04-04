@@ -1,0 +1,26 @@
+---
+- include: roles/common/handlers/main.yml
+
+- name: start-grafana-server
+  service:
+    name: grafana-server
+    state: started
+    enabled: yes
+
+- name: stop-grafana-server
+  service:
+    name: grafana-server
+    state: stopped
+    enabled: yes
+
+- name: reload-grafana-server
+  service:
+    name: grafana-server
+    state: reloaded
+    enabled: yes
+
+- name: restart-grafana-server
+  service:
+    name: grafana-server
+    state: restarted
+    enabled: yes

@@ -1,0 +1,35 @@
+---
+- name: download package
+  unarchive:
+    src: "{{ pkg }}"
+    dest: "{{ pkg_download_dir }}"
+    remote_src: yes
+
+- name: "configure {{ app }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    variable_start_string: '[['
+    variable_end_string: ']]'
+  with_items:
+    - { src: "values.yaml", dest: "{{ pkg_root_dir }}/values.yaml" }
+
+- name: "install {{ app }}"
+  shell: |
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    helm uninstall {{ app }} --namespace {{ namespace }}
+    kubectl delete crds applications.argoproj.io
+    kubectl delete crds applicationsets.argoproj.io
+    kubectl delete crds appprojects.argoproj.io
+    helm install --values values.yaml --create-namespace --namespace {{ namespace }} {{ app }} .
+  args:
+    chdir: "{{ pkg_root_dir }}"
+  ignore_errors: yes
+  register: install_log
+
+- name: "install {{ app }} log"
+  debug:
+    msg:
+      - "{{ install_log.stdout_lines }}"
+      - "{{ install_log.stderr_lines }}"
+

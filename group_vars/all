@@ -1,0 +1,32 @@
+### 顶级变量
+certs_dir: /etc/ssl/certs
+lan_domain: freedom.org
+wan_domain: roywong.work
+registry: harbor.idc.roywong.work
+systemd_conf_dir: /usr/lib/systemd/system
+
+
+### kubernetes
+image_repository: "harbor.idc.roywong.work/registry.k8s.io"
+pod_network_cidr: 10.251.0.0/16
+service_cidr: 10.252.0.0/16
+api_server: "apiserver.k8s.freedom.org:6443"
+
+
+### ingress-nginx
+ingress_nginx_class_name: nginx
+ingress_nginx_domain_name: "idc-ingress-nginx.roywong.work"
+ingress_nginx_tls_name: tls-wildcard-idc-ingress-nginx-roywong-work
+
+
+### ingress-istio
+ingress_istio_domain_name: "idc-ingress-istio.roywong.work"
+ingress_istio_tls_name: tls-wildcard-idc-ingress-istio-roywong-work
+
+
+### prometheus
+prometheus_namespace: monitoring
+prometheus_s3_bucket: kubernetes-prometheus
+prometheus_s3_endpoint: "minio-s3.idc.idc.roywong.work"
+prometheus_s3_access_key: 053ixvmeitBL45A6BxFo
+prometheus_s3_secret_key: igLOl7oPohS3mrHnIRkbujmkwAA6YYVVgoqA8mTt

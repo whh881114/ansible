@@ -1,0 +1,32 @@
+---
+- name: download package
+  unarchive:
+    src: "{{ pkg }}"
+    dest: /usr/local
+    remote_src: yes
+
+- name: configure promtail
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    variable_start_string: '[['
+    variable_end_string: ']]'
+  with_items:
+    - { src: "values.yaml", dest: "/usr/local/promtail/values.yaml" }
+
+- name: install loki
+  shell: |
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    kubectl create namespace {{ namespace }}
+    helm uninstall promtail -n {{ namespace }}
+    helm install --values values.yaml --namespace {{ namespace }} promtail .
+  args:
+    chdir: "/usr/local/promtail"
+  ignore_errors: yes
+  register: install_promtail
+
+- name: show install promtail log
+  debug:
+    msg:
+      - "{{ install_promtail.stdout_lines }}"
+      - "{{ install_promtail.stderr_lines }}"

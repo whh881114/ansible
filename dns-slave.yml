@@ -1,0 +1,36 @@
+---
+- name: dns master
+  hosts: 10.255.0.122
+  user: root
+  roles:
+    - role: common
+      tags:
+        - common
+
+    - role: zabbix-agent2
+      tags:
+        - zabbix
+        - zabbix-agent
+        - zabbix-agent2
+
+    - role: consul
+      tags:
+        - consul
+      vars:
+        services:
+          - name: dns-slave
+            port: 53
+
+    - role: bind
+      tags:
+        - dns
+        - bind
+      vars:
+        slave_role: true
+
+    - role: promtail
+      tags:
+        - promtail
+      vars:
+        scrape_projects:
+          - dns

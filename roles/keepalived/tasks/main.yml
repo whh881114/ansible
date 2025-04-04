@@ -1,0 +1,3 @@
+---
+- include: common.yml
+- include: "{{ vrrp_model }}.yml"

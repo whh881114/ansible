@@ -1,0 +1,11 @@
+---
+name: argo-cd
+version: 7.4.4
+pkg: "ftp://central-server.freedom.org/{{ name }}-{{ version }}.tgz"
+pkg_download_dir: /usr/local
+pkg_root_dir: "/usr/local/{{ name }}"
+
+app: argocd
+namespace: argocd
+
+# argocdServerAdminPassword: A8m~zgqgz+utrd%Y8b

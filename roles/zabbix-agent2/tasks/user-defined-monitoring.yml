@@ -1,0 +1,12 @@
+- name: user-defined monitoring
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items:
+    - { src: tcp_ports.conf, dest: /etc/zabbix/zabbix_agent2.d/tcp_ports.conf }
+    - { src: rocketmq.conf, dest: /etc/zabbix/zabbix_agent2.d/rocketmq.conf }
+  notify:
+    - restart-zabbix-agent2
+

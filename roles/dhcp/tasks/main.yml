@@ -1,0 +1,24 @@
+---
+- name: install packages
+  package:
+    pkg: "{{ pkgs }}"
+    state: present
+
+- name: generate main config file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+  with_items:
+    - { src: dhcpd.hosts, dest: /etc/dhcp/dhcpd.hosts }
+    - { src: dhcpd.conf, dest: /etc/dhcp/dhcpd.conf }
+  notify: restart-dhcpd
+
+- name: configure log
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: rsyslog-dhcpd.conf, dest: /etc/rsyslog.d/dhcpd.conf }
+  notify:
+    - restart-rsyslog

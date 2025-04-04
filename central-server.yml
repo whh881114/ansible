@@ -1,0 +1,49 @@
+---
+- name: Initialize the host by the playbook
+  hosts: 10.255.1.11
+  user: root
+  roles:
+    - role: common
+      tags:
+        - common
+
+    - role: zabbix-agent2
+      tags:
+        - zabbix
+        - zabbix-agent
+        - zabbix-agent2
+
+    - role: dhcp
+      tags:
+        - dhcp
+
+    - role: vsftpd
+      tags:
+        - vsftpd
+
+    - role: consul
+      tags:
+        - consul
+      vars:
+        server_role: true
+
+    - role: consul-template
+      tags:
+        - consul-template
+      vars:
+        template_feature: ansible
+
+    - role: loki
+      tags:
+        - loki
+
+    - role: grafana
+      tags:
+        - grafana
+
+    - role: promtail
+      tags:
+        - promtail
+      scrape_projects:
+        - dhcpd
+        - vsftpd

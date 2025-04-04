@@ -1,0 +1,17 @@
+---
+- name: install package
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ pkgs }}"
+
+- name: "configure keepalived"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: keepalived, dest: /etc/sysconfig/keepalived }
+    - { src: keepalived.conf, dest: /etc/rsyslog.d/keepalived.conf }
+  notify:
+    - restart-keepalived
+    - restart-rsyslog

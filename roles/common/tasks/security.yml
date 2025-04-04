@@ -1,0 +1,31 @@
+---
+- name: 'modify /etc/login.defs'
+  lineinfile:
+    path: /etc/login.defs
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backrefs: yes
+  with_items:
+    - { regexp: "^PASS_MAX_DAYS", line: "PASS_MAX_DAYS   90"}
+    - { regexp: "^PASS_MIN_DAYS", line: "PASS_MIN_DAYS   0"}
+    - { regexp: "^PASS_MIN_LEN",  line: "PASS_MIN_LEN    8"}
+    - { regexp: "^PASS_WARN_AGE", line: "PASS_WARN_AGE   7"}
+
+- name: 'modify /etc/pam.d/system-auth setup 1'
+  lineinfile:
+    path: /etc/pam.d/system-auth
+    regexp: "^password\ +requisite\ .*"
+    line: "password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 difok=3 ucredit=-1 lcredit=-3 dcredit=-3 ocredit=-1 authtok_type="
+    backrefs: yes
+
+- name: 'modify /etc/pam.d/system-auth setup 2'
+  blockinfile:
+    path: /etc/pam.d/system-auth
+    block: |
+      auth        required      /lib/security/pam_tally.so onerr=fail no_magic_root
+      account     required      /lib/security/pam_tally.so deny=5 no_magic_root reset
+
+- name: 'set timeout for idle session'
+  lineinfile:
+    path: /etc/profile
+    line: "TMOUT=600"

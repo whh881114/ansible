@@ -1,0 +1,13 @@
+---
+- name: consul-template feature file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    variable_start_string: '[['
+    variable_end_string: ']]'
+  with_items:
+    - { src: "{{ template_feature }}/{{ template_feature }}.hcl", dest: "{{ conf_dir }}/{{ template_feature }}.hcl" }
+    - { src: "{{ template_feature }}/{{ template_feature }}.ctmpl", dest: "{{ root_dir }}/{{ template_feature }}.ctmpl" }
+  notify:
+    - restart-consul-template

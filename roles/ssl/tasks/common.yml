@@ -1,0 +1,14 @@
+---
+- name: create certs directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ certs_dir }}"
+
+- name: synchronize https certificate files
+  synchronize:
+    src: "/root/.acme.sh/{{ item }}"
+    dest: "{{ certs_dir }}"
+  with_items:
+    - "{{ domains }}"

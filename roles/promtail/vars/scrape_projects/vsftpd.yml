@@ -1,0 +1,22 @@
+vsftpd:
+  - job_name: vsftpd-xferlog
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: vsftpd
+          type: xferlog
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/xferlog*
+
+  - job_name: vsftpd-server
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: vsftpd
+          type: server
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/vsftpd.log*

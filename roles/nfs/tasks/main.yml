@@ -1,0 +1,18 @@
+---
+- name: include vars
+  include_vars:
+     dir: projects
+
+- name: install package
+  yum:
+    name: "{{ pkgs }}"
+
+- include: "{{ item }}.yml"
+  loop: "{{ projects }}"
+
+- name: generate nfs exports file
+  template:
+    src: "exports.j2"
+    dest: /etc/exports
+  notify:
+    - restart-nfs-server

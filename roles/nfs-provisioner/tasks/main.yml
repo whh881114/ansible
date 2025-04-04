@@ -1,0 +1,31 @@
+---
+- name: download package
+  unarchive:
+    src: "{{ pkg }}"
+    dest: /usr/local
+    remote_src: yes
+
+- name: configure values.yaml
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    variable_start_string: '[['
+    variable_end_string: ']]'
+  with_items:
+    - { src: "{{ storage_class_values_file }}", dest: "{{ pkg_root_dir }}/values.yaml" }
+
+- name: install storage class
+  shell: |
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    helm uninstall {{ storage_class_name }} --namespace {{ namespace }}
+    helm install --values values.yaml --create-namespace --namespace {{ namespace }} {{ storage_class_name }} .
+  args:
+    chdir: "{{ pkg_root_dir }}"
+  ignore_errors: yes
+  register: install_storage_class
+
+- name: show install storage class log
+  debug:
+    msg:
+      - "{{ install_storage_class.stdout_lines }}"
+      - "{{ install_storage_class.stderr_lines }}"

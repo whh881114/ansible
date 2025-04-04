@@ -1,0 +1,17 @@
+{
+  "services": [
+{% for item in services %}
+{%- if loop.last %}
+    {
+      "name": "{{ item.name }}",
+      "port": {{ item.port }}
+    }
+{% else %}
+    {
+      "name": "{{ item.name }}",
+      "port": {{ item.port }}
+    },
+{% endif %}
+{% endfor %}
+  ]
+}

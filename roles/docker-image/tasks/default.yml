@@ -1,0 +1,7 @@
+---
+- name: download images
+  shell: |
+    docker pull "{{ registry }}/{{ item }}"
+  loop:
+    - docker.io/library/busybox:1.31.1
+  ignore_errors: yes

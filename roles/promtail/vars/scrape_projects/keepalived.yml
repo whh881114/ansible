@@ -1,0 +1,10 @@
+keepalived:
+  - job_name: "keepalived"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "keepalived"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/keepalived.log*

@@ -1,0 +1,26 @@
+---
+- include: roles/common/handlers/main.yml
+
+- name: start-minio
+  service:
+    name: minio
+    state: started
+    enabled: yes
+
+- name: stop-minio
+  service:
+    name: minio
+    state: stopped
+    enabled: yes
+
+- name: reload-minio
+  service:
+    name: minio
+    state: reloaded
+    enabled: yes
+
+- name: restart-minio
+  service:
+    name: minio
+    state: restarted
+    enabled: yes

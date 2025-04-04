@@ -1,0 +1,36 @@
+---
+- name: wanghaohao-k8s-worker
+  hosts:
+    - 10.255.2.127
+    - 10.255.2.119
+  user: root
+  roles:
+  - role: common
+    tags:
+      - common
+
+  - role: zabbix-agent2
+    tags:
+      - zabbix
+      - zabbix-agent
+      - zabbix-agent2
+
+  - role: docker
+    tags:
+      - docker
+
+  - role: docker-image
+    tags:
+      - docker-image
+    vars:
+      projects:
+        - kubernetes
+
+  - role: kubernetes-requisite
+    tags:
+      - kubernetes
+      - k8s
+
+  - role: promtail
+    tags:
+      - promtail

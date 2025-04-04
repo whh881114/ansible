@@ -1,0 +1,9 @@
+---
+app: argo-rollouts
+version: 2.37.5
+pkg: "ftp://central-server.freedom.org/{{ app }}-{{ version }}.tgz"
+
+pkg_download_dir: /usr/local
+pkg_root_dir: "/usr/local/{{ app }}"
+
+namespace: argo-rollouts

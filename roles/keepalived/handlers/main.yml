@@ -1,0 +1,33 @@
+---
+- include: roles/common/handlers/main.yml
+
+- name: start-keepalived
+  service:
+    name: keepalived
+    state: started
+    enabled: yes
+
+- name: stop-keepalived
+  service:
+    name: keepalived
+    state: stopped
+    enabled: yes
+
+- name: reload-keepalived
+  service:
+    name: keepalived
+    state: reloaded
+    enabled: yes
+
+- name: restart-keepalived
+  service:
+    name: keepalived
+    state: restarted
+    enabled: yes
+
+- name: restart-rsyslog
+  service:
+    name: rsyslog
+    state: restarted
+    enabled: yes
+

@@ -1,0 +1,9 @@
+---
+version: 1.30.3
+
+pkgs:
+  - "kubeadm-{{ version }}"
+  - "kubelet-{{ version }}"
+  - "kubectl-{{ version }}"
+
+sandbox_image: "{{ image_repository }}/pause:3.9"

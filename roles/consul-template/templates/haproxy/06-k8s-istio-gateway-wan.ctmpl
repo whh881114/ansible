@@ -1,0 +1,20 @@
+listen tcp-istio-gateway-wan-status-nodeport
+    bind 10.255.3.105:15021
+    mode tcp
+    option tcplog
+    {{range service "istio-gateway-wan-status-nodeport"}}
+    server {{.Node}} {{.Address}}:{{.Port}} check{{end}}
+
+listen tcp-istio-gateway-wan-http-nodeport
+    bind 10.255.3.105:80
+    mode tcp
+    option tcplog
+    {{range service "istio-gateway-wan-http-nodeport"}}
+    server {{.Node}} {{.Address}}:{{.Port}} check{{end}}
+
+listen tcp-istio-gateway-wan-https-nodeport
+    bind 10.255.3.105:443
+    mode tcp
+    option tcplog
+    {{range service "istio-gateway-wan-https-nodeport"}}
+    server {{.Node}} {{.Address}}:{{.Port}} check{{end}}

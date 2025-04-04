@@ -1,0 +1,6 @@
+listen tcp-kubernetes-apiserver
+    bind 10.255.1.122:6443
+    mode tcp
+    option tcplog
+    {{range service "kubernetes-apiserver"}}
+    server {{.Node}} {{.Address}}:{{.Port}} check{{end}}

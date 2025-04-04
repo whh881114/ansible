@@ -1,0 +1,16 @@
+---
+- name: Initialize the host by the playbook
+  hosts:
+    - 10.255.1.12
+  user: root
+  roles:
+    - role: ssl
+      tags:
+        - ssl
+        - https
+      vars:
+        project: kubernetes
+
+
+
+

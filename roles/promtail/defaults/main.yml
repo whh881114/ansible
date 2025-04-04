@@ -1,0 +1,9 @@
+---
+pkgs:
+  - "ftp://central-server.freedom.org/promtail-2.9.9.x86_64.rpm"
+
+position_file: "/etc/promtail/positions.yaml"
+
+loki_server: "http://central-server.freedom.org:3100/loki/api/v1/push"
+
+scrape_projects: []

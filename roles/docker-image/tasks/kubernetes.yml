@@ -1,0 +1,25 @@
+---
+- name: download image
+  shell: |
+    crictl pull "{{ registry }}/{{ item }}"
+    ctr -n k8s.io image tag "{{ registry }}/{{ item }}" "{{ item }}"
+  loop:
+    - registry.k8s.io/ingress-nginx/controller:v1.11.1
+    - registry.k8s.io/ingress-nginx/opentelemetry:v20230721-3e2062ee5
+    - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.1
+    - registry.k8s.io/defaultbackend-amd64:1.5
+    - docker.io/istio/pilot:1.22.3
+    - docker.io/istio/proxyv2:1.22.3
+    - docker.io/istio/examples-bookinfo-details-v1:1.19.1
+    - docker.io/istio/examples-bookinfo-productpage-v1:1.19.1
+    - docker.io/istio/examples-bookinfo-ratings-v1:1.19.1
+    - docker.io/istio/examples-bookinfo-reviews-v1:1.19.1
+    - docker.io/istio/examples-bookinfo-reviews-v2:1.19.1
+    - docker.io/istio/examples-bookinfo-reviews-v3:1.19.1
+    - docker.io/grafana/grafana:10.4.0
+    - docker.io/jaegertracing/all-in-one:1.56
+    - docker.io/prom/prometheus:v2.51.1
+    - quay.io/cilium/operator-generic:v1.15.6
+    - quay.io/cilium/cilium:v1.15.6
+  ignore_errors: yes
+  # crt重新打tag时，会提示"already exists"，所以增加ignore_errors。

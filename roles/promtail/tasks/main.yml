@@ -1,0 +1,21 @@
+---
+- name: include vars
+  include_vars:
+     dir: scrape_projects
+
+- name: install packages
+  yum:
+    name: "{{ pkgs }}"
+    state: present
+    disable_gpg_check: yes
+
+- name: configure promtail
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: promtail.service.j2, dest: /etc/systemd/system/promtail.service }
+    - { src: config.yml,          dest: /etc/promtail/config.yml }
+  notify:
+    - systemctl-daemon-reload
+    - restart-promtail

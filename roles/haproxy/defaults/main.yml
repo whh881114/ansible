@@ -1,0 +1,15 @@
+---
+pkgs:
+  - haproxy
+
+ip_list:
+  - "addresses2=10.255.3.101/22"
+  - "addresses3=10.255.3.102/22"
+  - "addresses4=10.255.3.103/22"
+  - "addresses5=10.255.3.104/22"
+  - "addresses6=10.255.3.105/22"
+  - "addresses7=10.255.3.106/22"
+  - "addresses8=10.255.3.107/22"
+  - "addresses9=10.255.3.108/22"
+  - "addresses10=10.255.3.109/22"
+  - "addresses11=10.255.3.110/22"

@@ -1,0 +1,22 @@
+nginx:
+  - job_name: "nginx-access"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "nginx"
+          type: "access"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/nginx/access.log*
+
+  - job_name: "nginx-error"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "nginx"
+          type: "error"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/nginx/error.log*

@@ -1,0 +1,11 @@
+zabbix_server:
+  - job_name: zabbix-server
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: zabbix
+          type: server
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/zabbix/zabbix_server.log*

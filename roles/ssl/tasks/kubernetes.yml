@@ -1,0 +1,18 @@
+---
+- name: create certificate secrets
+  shell: |
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    for namespace in `kubectl get namespace | grep -v '^NAME' | awk '{print $1}'`
+    do
+      tls_name="tls-{{ item | replace('*', 'wildcard') | replace('.', '-') }}"
+    
+      kubectl delete secret tls $tls_name -n $namespace
+    
+      kubectl create secret tls $tls_name \
+        --cert="{{ certs_dir }}/{{ item }}/fullchain.cer" \
+        --key="{{ certs_dir }}/{{ item }}/{{ item }}.key" \
+        -n $namespace
+    done
+  with_items:
+    - "{{ domains }}"
+  ignore_errors: yes

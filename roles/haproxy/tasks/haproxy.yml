@@ -1,0 +1,32 @@
+---
+- name: install packages
+  yum:
+    name: "{{ pkgs }}"
+    state: present
+
+- name: ensure additional IP addresses are present in the configuration
+  lineinfile:
+    path: "/etc/NetworkManager/system-connections/{{ ansible_default_ipv4.interface }}.nmconnection"
+    insertafter: '^\[ipv4\]$'
+    line: "{{ item }}"
+  with_items: "{{ ip_list }}"
+  notify:
+    - restart-NetworkManager
+
+- name: configure rsyslog for haproxy
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: rsyslog-haproxy.conf, dest: /etc/rsyslog.d/haproxy.conf }
+  notify:
+    - restart-rsyslog
+
+- name: configure haproxy
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: haproxy.cfg, dest: /etc/haproxy/haproxy.cfg }
+  notify:
+    - restart-haproxy

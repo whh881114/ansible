@@ -1,0 +1,20 @@
+---
+- include: roles/common/handlers/main.yml
+
+- name: restart-promtail
+  service:
+    name: promtail
+    state: restarted
+    enabled: yes
+
+- name: stop-promtail
+  service:
+    name: promtail
+    state: stopped
+    enabled: yes
+
+- name: start-promtail
+  service:
+    name: promtail
+    state: started
+    enabled: yes

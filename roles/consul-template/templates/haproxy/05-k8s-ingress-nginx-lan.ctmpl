@@ -1,0 +1,13 @@
+listen tcp-ingress-nginx-lan-http-nodeport
+    bind 10.255.3.104:80
+    mode tcp
+    option tcplog
+    {{range service "ingress-nginx-lan-http-nodeport"}}
+    server {{.Node}} {{.Address}}:{{.Port}} check{{end}}
+
+listen tcp-ingress-nginx-lan-https-nodeport
+    bind 10.255.3.104:443
+    mode tcp
+    option tcplog
+    {{range service "ingress-nginx-lan-https-nodeport"}}
+    server {{.Node}} {{.Address}}:{{.Port}} check{{end}}

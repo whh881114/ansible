@@ -1,0 +1,30 @@
+---
+version: 6.7.3
+pkg: "ftp://central-server.freedom.org/loki-{{ version }}.tgz"
+
+namespace: grafana
+
+loki_image: docker.io/grafana/loki
+loki_tag: 3.1.0
+
+bucket_names_chunks: kubernetes-loki-chunks
+bucket_names_ruler: kubernetes-loki-ruler
+bucket_names_admin: kubernetes-loki-admin
+
+s3_endpoint: minio-s3.idc.roywong.top
+s3_access_key_id: 0ysv9fyuySvGScdwUoqP
+s3_secret_access_key: MgRf4sJcqDp4qftjfZ2BT3MCmyn6bvpywSVDvEvT
+
+storage_class: infra
+write_persistence_size: 10Gi
+read_persistence_size: 10Gi
+backend_persistence_size: 10Gi
+
+memcached_image: harbor.idc.roywong.top/docker.io/memcached  # 没有引用"{{ registry }}"变量，因为这和模板里的有冲突。
+memcached_tag: 1.6.23-alpine
+memcached_exporter_image: harbor.idc.roywong.top/docker.io/prom/memcached-exporter
+memcached_exporter_tag: v0.14.2
+
+sidecar_image: harbor.idc.roywong.top/docker.io/kiwigrid/k8s-sidecar
+sidecar_tag: 1.24.3
+

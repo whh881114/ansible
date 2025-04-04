@@ -1,0 +1,21 @@
+---
+- name: consul-template feature file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+    variable_start_string: '[['
+    variable_end_string: ']]'
+  with_items:
+    - { src: "{{ template_feature }}/{{ template_feature }}.hcl", dest: "{{ conf_dir }}/{{ template_feature }}.hcl" }
+
+    - { src: "{{ template_feature }}/00-stats.cfg", dest: "/etc/haproxy/conf.d/00-stats.cfg" }
+
+    - { src: "{{ template_feature }}/01-k8s-apiserver.ctmpl",     dest: "{{ root_dir }}/01-k8s-apiserver.ctmpl" }
+
+    - { src: "{{ template_feature }}/04-k8s-ingress-nginx-wan.ctmpl", dest: "{{ root_dir }}/04-k8s-ingress-nginx-wan.ctmpl" }
+    - { src: "{{ template_feature }}/05-k8s-ingress-nginx-lan.ctmpl", dest: "{{ root_dir }}/05-k8s-ingress-nginx-lan.ctmpl" }
+    - { src: "{{ template_feature }}/06-k8s-istio-gateway-wan.ctmpl", dest: "{{ root_dir }}/06-k8s-istio-gateway-wan.ctmpl" }
+    - { src: "{{ template_feature }}/07-k8s-istio-gateway-lan.ctmpl", dest: "{{ root_dir }}/07-k8s-istio-gateway-lan.ctmpl" }
+  notify:
+    - restart-consul-template

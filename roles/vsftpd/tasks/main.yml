@@ -1,0 +1,15 @@
+---
+- name: install packages
+  package:
+    pkg: "{{ pkgs }}"
+    state: present
+
+- name: configure vsftpd
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+  with_items:
+    - { src: vsftpd.conf, dest: /etc/vsftpd/vsftpd.conf }
+  notify: restart-vsftpd
+

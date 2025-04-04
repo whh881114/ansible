@@ -1,0 +1,79 @@
+---
+- name: create consul group
+  group:
+    name: "{{ group }}"
+    state: present
+
+- name: create consul user
+  user:
+    name: "{{ user }}"
+    home: "/home/{{ user }}"
+    create_home: false
+    group: "{{ group }}"
+    shell: "/bin/false"
+    state: present
+
+- name: create consul dirs
+  file:
+    path: "{{ item }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ conf_dir }}"
+    - "{{ data_dir }}"
+
+- name: download consul package
+  unarchive:
+    src: "{{ pkg }}"
+    dest: /usr/local/bin
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    remote_src: yes
+
+- name: copy consul.hcl and consul.env
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - { src: consul.hcl, dest: "{{ conf_dir }}/consul.hcl", user: "{{ user }}", group: "{{ group }}" }
+    - { src: consul.env, dest: "{{ conf_dir }}/consul.env", user: "{{ user }}", group: "{{ group }}" }
+  notify:
+    - restart-consul
+
+# idc私有云环境下，没有el6版本，先取消。
+# - name: copy consul.service
+#   template:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     mode: 0755
+#   with_items:
+#     - { src: consul.service.el6.j2, dest: /etc/init.d/consul, user: root, group: root }
+#   notify:
+#     - restart-consul
+#   when: ansible_distribution_major_version == "6"
+
+- name: copy consul.service
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - { src: consul.service.j2, dest: /usr/lib/systemd/system/consul.service, user: root, group: root }
+  notify:
+    - systemctl-daemon-reload
+    - restart-consul
+  # when: ansible_distribution_major_version != "6"
+
+- name: create consul service
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - { src: services.json.j2, dest: "{{ conf_dir }}/services.json", user: "{{ user }}", group: "{{ group }}" }
+  notify:
+    - restart-consul
+  when: services is defined

@@ -1,0 +1,22 @@
+---
+master_role: False
+slave_role: False
+
+master_ip: 10.255.0.121
+slave_ip: 10.255.0.122
+
+group: named
+
+pkgs:
+  - bind
+  - bind-*
+
+master_zone_dir: "/var/named/data"
+slave_zone_dir: "/var/named/slaves"
+
+zones:
+  - freedom.org
+  - k8s.freedom.org
+
+rev_zones:
+  - {ip: "255.10", domain_name: "freedom.org"}

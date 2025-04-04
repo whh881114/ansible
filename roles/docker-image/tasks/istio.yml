@@ -1,0 +1,9 @@
+---
+- name: download images
+  shell: |
+    docker pull "{{ registry }}/{{ item }}"
+    docker tag "{{ registry }}/{{ item }}" "{{ item }}"
+  loop:
+    - docker.io/istio/pilot:1.22.3
+    - docker.io/istio/proxyv2:1.22.3
+  ignore_errors: yes

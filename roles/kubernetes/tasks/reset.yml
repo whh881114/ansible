@@ -1,0 +1,11 @@
+---
+- name: reset kubernetes
+  shell: |
+    echo 'y' | kubeadm reset
+  register: kubeadm_reset_log
+
+- name: show kubeadm reset log
+  debug:
+    msg:
+      - "{{ kubeadm_reset_log.stdout_lines }}"
+      - "{{ kubeadm_reset_log.stderr_lines }}"

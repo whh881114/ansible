@@ -1,0 +1,22 @@
+nginx_minio_s3:
+  - job_name: "nginx-minio-s3-access"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "nginx"
+          type: "minio-s3-access"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/nginx/minio-s3.idc.{{ wan_domain }}.log*
+
+  - job_name: "nginx-minio-s3-error"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "nginx"
+          type: "minio-s3-error"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/nginx/minio-s3.idc.{{ wan_domain }}.err*

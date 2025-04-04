@@ -1,0 +1,33 @@
+dhcpd:
+  - job_name: dhcpd-server
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: dhcpd
+          type: server
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/dhcpd.log*
+
+  - job_name: dhcpd-ipv4-leases
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: dhcpd
+          type: ipv4-leases
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/lib/dhcpd/dhcpd.leases
+
+  - job_name: dhcpd-ipv6
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: dhcpd
+          type: ipv6-leases
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/lib/dhcpd/dhcpd6.leases

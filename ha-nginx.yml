@@ -1,0 +1,50 @@
+---
+- name: Initialize the host by the playbook
+  hosts:
+    - 10.255.1.9
+    - 10.255.1.10
+  user: root
+  roles:
+    - role: common
+      tags:
+        - common
+
+    - role: zabbix-agent2
+      tags:
+        - zabbix
+        - zabbix-agent
+        - zabbix-agent2
+
+    - role: consul
+      tags:
+        - consul
+      vars:
+        services:
+          - name: ha-nginx
+            port: 80
+
+    - role: ssl
+      tags:
+        - ssl
+        - https
+      vars:
+        project: default
+
+    - role: nginx
+      tags:
+        - nginx
+      vars:
+        project: ha
+
+    - role: promtail
+      tags:
+        - promtail
+      vars:
+        scrape_projects:
+          - keepalived
+          - nginx
+          - nginx_grafana
+          - nginx_harbor
+          - nginx_minio_console
+          - nginx_minio_s3
+          - nginx_zabbix

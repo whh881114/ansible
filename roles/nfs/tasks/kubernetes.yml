@@ -1,0 +1,16 @@
+---
+# 如果在创建的目录不存在时，并且再加上权限设定，则会递归改变目录owner/group。
+#    owner: polkitd
+#    group: nfsnobody
+- name: create kubernetes nfs pvc directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # recurse: yes
+    owner: polkitd
+    group: nobody
+  loop:
+    - /data1/kubernetes/infra
+    - /data1/kubernetes/mysql
+    - /data1/kubernetes/redis
+

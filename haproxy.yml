@@ -1,0 +1,43 @@
+---
+- name: Initialize the host by the playbook
+  hosts: 10.255.1.122
+  user: root
+  roles:
+    - role: common
+      tags:
+        - common
+
+    - role: zabbix-agent2
+      tags:
+        - zabbix
+        - zabbix-agent
+        - zabbix-agent2
+
+    - role: consul
+      tags:
+        - consul
+      vars:
+        services:
+          - name: http
+            port: 80
+          - name: https
+            port: 443
+
+    - role: haproxy
+      tags:
+        - haproxy
+
+    - role: consul-template
+      tags:
+        - consul-template
+        - haproxy
+      vars:
+        template_feature: haproxy
+
+    - role: promtail
+      tags:
+        - promtail
+      vars:
+        scrape_projects:
+          - haproxy
+

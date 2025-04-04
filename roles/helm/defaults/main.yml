@@ -1,0 +1,5 @@
+---
+# https://github.com/helm/helm/releases
+version: v3.15.3
+arch: linux-amd64
+pkg: "ftp://central-server.freedom.org/helm-{{ version }}-{{ arch }}.tar.gz"

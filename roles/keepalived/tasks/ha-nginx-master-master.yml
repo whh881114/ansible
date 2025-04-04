@@ -1,0 +1,17 @@
+---
+- name: copy vrrp health script
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0755
+  with_items:
+    - { src: check_nginx.sh, dest: /usr/local/bin/check_nginx.sh }
+
+- name: "configure {{ vrrp_model }} model"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: ha-nginx-master-master.yml, dest: /etc/keepalived/keepalived.conf }
+  notify:
+    - restart-keepalived

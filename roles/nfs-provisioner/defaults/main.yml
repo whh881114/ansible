@@ -1,0 +1,19 @@
+---
+version: 4.0.18
+pkg: "ftp://central-server.freedom.org/nfs-subdir-external-provisioner-{{ version }}.tgz"
+pkg_root_dir: /usr/local/nfs-subdir-external-provisioner
+
+namespace: nfs-provisioner
+
+image: "[[ registry ]]/registry.k8s.io/sig-storage/nfs-subdir-external-provisioner"
+tag: v4.0.2
+
+nfs_server: nfs.freedom.org
+nfs_path: ""
+nfs_mount_option: ""
+nfs_volume_name: nfs-subdir-external-provisioner-root
+nfs_reclaim_policy: Retain
+
+storage_class_name: ""
+storage_class_values_file: values.yaml
+storage_class_provisioner_name: ""

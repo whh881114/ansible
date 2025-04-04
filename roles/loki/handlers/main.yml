@@ -1,0 +1,26 @@
+---
+- include: roles/common/handlers/main.yml
+
+- name: start-loki
+  service:
+    name: loki
+    state: started
+    enabled: yes
+
+- name: stop-loki
+  service:
+    name: loki
+    state: stopped
+    enabled: yes
+
+- name: reload-loki
+  service:
+    name: loki
+    state: reloaded
+    enabled: yes
+
+- name: restart-loki
+  service:
+    name: loki
+    state: restarted
+    enabled: yes

@@ -1,0 +1,10 @@
+---
+version: 3.12.1
+pkg: "ftp://central-server.freedom.org/metrics-server-{{ version }}.tgz"
+
+app: metrics-server
+
+pkg_download_dir: /usr/local
+pkg_root_dir: "/usr/local/{{ app }}"
+
+namespace: kube-system

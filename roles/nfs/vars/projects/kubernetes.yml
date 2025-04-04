@@ -1,0 +1,30 @@
+kubernetes: |
+  /data1/kubernetes/infra     10.255.1.12/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.22/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.23/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.24/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.25/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.26/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.27/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.28/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.29/32(insecure,rw,sync,no_root_squash)
+  
+  /data1/kubernetes/mysql     10.255.1.12/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.22/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.23/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.24/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.25/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.26/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.27/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.28/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.29/32(insecure,rw,sync,no_root_squash)
+  
+  /data1/kubernetes/redis     10.255.1.12/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.22/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.23/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.24/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.25/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.26/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.27/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.28/32(insecure,rw,sync,no_root_squash) \
+                              10.255.1.29/32(insecure,rw,sync,no_root_squash)

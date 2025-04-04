@@ -1,0 +1,10 @@
+---
+version: 61.8.0
+pkg: "ftp://central-server.freedom.org/kube-prometheus-stack-{{ version }}.tgz"
+
+namespace: monitoring
+
+s3_bucket: kubernetes-prometheus
+s3_endpoint: minio-s3.idc.roywong.top
+s3_access_key: 053ixvmeitBL45A6BxFo
+s3_secret_key: igLOl7oPohS3mrHnIRkbujmkwAA6YYVVgoqA8mTt

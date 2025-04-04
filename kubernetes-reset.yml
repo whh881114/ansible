@@ -1,0 +1,26 @@
+---
+- name: kubernetes reset
+  hosts:
+    - 10.255.1.12
+    - 10.255.1.22
+    - 10.255.1.23
+    - 10.255.1.24
+    - 10.255.1.25
+    - 10.255.1.26
+  user: root
+  roles:
+    - role: kubernetes
+      tags:
+        - kubernetes
+        - k8s
+      vars:
+        reset: no
+
+  tasks:
+    - name: delete files
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/ectd
+        - /var/lib/containerd

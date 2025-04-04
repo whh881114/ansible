@@ -1,0 +1,14 @@
+---
+- name: install package
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ pkgs }}"
+
+- name: configure nginx.conf file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "nginx.conf", dest: "/etc/nginx/nginx.conf"}
+  notify: reload-nginx

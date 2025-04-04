@@ -1,0 +1,5 @@
+---
+pkgs:
+  - docker-ce
+
+data_root_dir: /data/docker

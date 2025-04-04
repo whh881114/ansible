@@ -1,0 +1,43 @@
+---
+- name: create default data directory
+  file:
+    path: /data
+    state: directory
+    mode: 0755
+
+- name: copy vimrc
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: vimrc, dest: /root/.vimrc }
+    - { src: motd, dest: /etc/motd }
+
+- name: replace PS1
+  tags: replace-PS1
+  blockinfile:
+    path: /etc/profile
+    block: |
+      if [ $UID -eq 0 ]; then
+          export PS1="[\u@\H \[\e[34m\]\w\[\e[m\] \[\e[33m\]\A\[\e[m\]]# \#> "
+      else
+          export PS1="[\u@\H \[\e[34m\]\w\[\e[m\] \[\e[33m\]\A\[\e[m\]]$ \#> "
+      fi
+      
+      export HISTTIMEFORMAT='%Y-%m-%d %H:%M:%S '
+
+- name: disable selinux
+  lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: SELINUX=disabled
+
+# 已经没有el6了，所以将firewalld写入common.yml中。
+- name: disable firewalld
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+- name: system running in multi-user model
+  shell: systemctl set-default multi-user.target

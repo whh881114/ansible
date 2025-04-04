@@ -1,0 +1,10 @@
+version: 0.39.1
+arch: linux_amd64
+
+pkg: "ftp://central-server.freedom.org/consul-template_{{ version }}_{{ arch }}.zip"
+
+root_dir: /data/consul-template
+conf_dir: "{{ root_dir }}/conf"
+
+# consul-template与consul通信所使用到的地址，可以是consul集群中的任何地址，默认是127.0.0.1，表示此主机已安装consul。
+consul_addr: 127.0.0.1

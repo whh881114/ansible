@@ -1,0 +1,14 @@
+pkgs:
+  - "ftp://central-server.freedom.org/minio-20240716234641.0.0-1.x86_64.rpm"
+
+user: minio-user
+group: minio-user
+
+minio_data_dirs:
+  - /data1
+  - /data2
+
+minio_root_user: admin
+minio_root_password: "81}rsJs%f&qbckVzzw"
+minio_volumes: "http://minio-{1...4}.freedom.org:9000/data{1...2}"
+minio_opts: "--console-address :9001"

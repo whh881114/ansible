@@ -1,0 +1,19 @@
+---
+- name: download package
+  unarchive:
+    src: "{{ pkg }}"
+    dest: /data
+    remote_src: yes
+
+- name: copy systemd conf
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - { src: my.cnf.j2, dest: "{{ root_dir }}/.my.cnf" }
+    - { src: mysqld-exporter.service.j2, dest: "{{ systemd_conf_dir }}/mysqld-exporter.service" }
+  notify:
+    - systemctl-daemon-reload
+    - restart-mysqld-exporter
+

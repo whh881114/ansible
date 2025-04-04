@@ -1,0 +1,17 @@
+version: 1.19.1
+arch: linux_amd64
+
+user: consul
+group: consul
+
+# server_role和agent_role为互斥变量
+server_role: False
+client_role: True
+
+pkg: "ftp://central-server.freedom.org/consul_{{ version }}_{{ arch }}.zip"
+
+datacenter: my-dc-1
+conf_dir: /etc/consul.d
+data_dir: /data/consul
+servers:
+  - central-server.freedom.org

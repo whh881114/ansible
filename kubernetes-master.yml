@@ -1,0 +1,48 @@
+---
+- name: kubernetes master
+  hosts:
+    - 10.255.1.12
+    - 10.255.1.22
+    - 10.255.1.23
+  user: root
+  roles:
+    - role: consul
+      tags:
+        - consul
+      vars:
+        services:
+          - name: kubernetes-master
+            port: 6443
+          - name: kubernetes-apiserver
+            port: 6443
+
+          # ingress-nginx-nginx nodeport
+          - name: ingress-nginx-http-nodeport
+            port: 31080
+          - name: ingress-nginx-https-nodeport
+            port: 31443
+
+          # 2025-02-19增加配置，这些ingress/gateway是使用argocd部署。
+          - name: ingress-nginx-wan-http-nodeport
+            port: 30848
+          - name: ingress-nginx-wan-https-nodeport
+            port: 30865
+
+          - name: ingress-nginx-lan-http-nodeport
+            port: 30815
+          - name: ingress-nginx-lan-https-nodeport
+            port: 30197
+
+          - name: istio-gateway-wan-status-nodeport
+            port: 30932
+          - name: istio-gateway-wan-http-nodeport
+            port: 30933
+          - name: istio-gateway-wan-https-nodeport
+            port: 30934
+
+          - name: istio-gateway-lan-status-nodeport
+            port: 30929
+          - name: istio-gateway-lan-http-nodeport
+            port: 30930
+          - name: istio-gateway-lan-https-nodeport
+            port: 30931

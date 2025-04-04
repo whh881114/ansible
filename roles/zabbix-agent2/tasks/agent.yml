@@ -1,0 +1,33 @@
+- name: unistall zabbix-agent
+  yum:
+    name: zabbix-agent
+    state: absent
+
+- name: install zabbix-agent2
+  yum:
+    name: "{{ pkgs }}"
+    state: present
+  notify: 
+    - restart-zabbix-agent2
+
+- name: update zabbix-agent2 conf
+  template:
+    src: zabbix_agent2.conf
+    dest: /etc/zabbix/zabbix_agent2.conf
+  notify:
+    - restart-zabbix-agent2
+
+- name: config customer monitor items
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items:
+    - { src: scripts, dest: /etc/zabbix }
+    - { src: zabbix_agent2.d, dest: /etc/zabbix }
+  notify:
+    - restart-zabbix-agent2
+
+- name: chmod 755 /etc/zabbix/scripts/*
+  shell: chmod 755 /etc/zabbix/scripts/*

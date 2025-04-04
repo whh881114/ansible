@@ -1,0 +1,7 @@
+---
+version: 2.10.3
+pkg: "ftp://central-server.freedom.org/harbor-offline-installer-v{{ version }}.tgz"
+hostname: harbor.idc.roywong.work
+admin_password: q+q8tyIloQ3ppopyzv
+database_password: y4xOrk4}uxhjMentre
+data_dir: /data/harbor

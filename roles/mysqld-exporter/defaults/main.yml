@@ -1,0 +1,14 @@
+version: 0.15.1
+arch: linux-amd64
+
+pkg: "ftp://central-server.freedom.org/mysqld_exporter-{{ version }}.{{ arch }}.tar.gz"
+
+root_dir: "/data/mysqld_exporter-{{ version }}.{{ arch }}"
+
+username: exporter
+password: pJwtdho13jLipiyquxldnqialgrpkvl~
+
+args: "--collect.info_schema.innodb_metrics \
+       --collect.info_schema.tables \
+       --collect.info_schema.processlist \
+       --collect.info_schema.tables.databases=*"

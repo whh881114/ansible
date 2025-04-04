@@ -1,0 +1,32 @@
+---
+# 镜像不存在m.daocloud.io
+# https://imnks.com/8302.html
+# ✅网友自建，可能出现宕机、转内网、关停等情况。
+# https://docker.1panel.live
+# https://docker.agsv.top
+# https://docker.agsvpt.work
+# https://dockerpull.com
+# https://dockerproxy.cn
+# ⚠️目前限速，且有白名单限制，不建议用。
+# https://docker.m.daocloud.io
+- name: download image
+  shell: |
+    docker pull docker.1panel.live/schickling/beanstalkd-console:latest
+    docker tag docker.1panel.live/schickling/beanstalkd-console:latest harbor.idc.roywong.top/docker.io/schickling/beanstalkd-console:1.7.20
+    docker push harbor.idc.roywong.top/docker.io/schickling/beanstalkd-console:1.7.20
+    
+    docker pull docker.1panel.live/schickling/beanstalkd:latest
+    docker tag docker.1panel.live/schickling/beanstalkd:latest harbor.idc.roywong.top/docker.io/schickling/beanstalkd:1.7.20
+    docker push harbor.idc.roywong.top/docker.io/schickling/beanstalkd:1.7.20
+  ignore_errors: yes
+
+- name: download image
+  shell: |
+    docker pull "{{ item }}"
+    docker tag "{{ item }}" "{{ registry }}/{{ item }}"
+    docker push "{{ registry }}/{{ item }}"
+  loop:
+    - ghcr.io/dexidp/dex:v2.38.0
+    - public.ecr.aws/docker/library/redis:7.2.4-alpine
+    - public.ecr.aws/bitnami/redis-exporter:1.58.0
+  ignore_errors: yes

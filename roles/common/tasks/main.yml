@@ -1,0 +1,4 @@
+---
+- include: common.yml
+- include: "el{{ ansible_distribution_major_version }}.yml"
+- include: security.yml

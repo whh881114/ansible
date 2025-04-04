@@ -1,0 +1,52 @@
+---
+- name: create data directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ data_dir }}"
+
+- name: delete harbor-offline-installer old package
+  file:
+    path: /usr/local/harbor
+    state: absent
+
+- name: download harbor-offline-installer package
+  unarchive:
+    src: "{{ pkg }}"
+    dest: /usr/local
+    remote_src: yes
+
+- name: create harbor.yml file
+  template:
+    src: "harbor_{{ version }}.yml"
+    dest: /usr/local/harbor/harbor.yml
+    variable_start_string: '[['
+    variable_end_string: ']]'
+
+- name: install harbor
+  shell: cd /usr/local/harbor && ./install.sh
+  register: install_harbor_status
+
+- name: show install harbor status
+  debug:
+    var: install_harbor_status.stdout_lines
+
+- name: chmod 755 /etc/rc.d/rc.local
+  file:
+    path: /etc/rc.d/rc.local
+    mode: "0755"
+
+- name: setup harbor to start on boot
+  blockinfile:
+    path: /etc/rc.d/rc.local
+    block: |
+      docker restart nginx \
+                     harbor-jobservice \
+                     harbor-core \
+                     registryctl \
+                     redis \
+                     harbor-portal \
+                     harbor-db \
+                     registry \
+                     harbor-log

@@ -1,0 +1,46 @@
+---
+- name: Initialize the host by the playbook
+  hosts: 10.255.1.21
+  user: root
+  vars:
+    certs_dir: /hostfs
+  roles:
+    - role: common
+      tags:
+        - common
+
+    - role: zabbix-agent2
+      tags:
+        - zabbix
+        - zabbix-agent
+        - zabbix-agent2
+
+    - role: consul
+      tags:
+        - consul
+      vars:
+        services:
+          - name: harbor
+            port: 80
+
+    - role: docker
+      tags:
+        - docker
+
+    - role: harbor
+      tags:
+        - harbor
+
+    - role: docker-image
+      tags:
+        - docker-image
+      vars:
+        projects:
+          - harbor
+
+    - role: promtail
+      tags:
+        - promtail
+      vars:
+        scrape_projects:
+          - harbor

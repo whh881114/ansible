@@ -1,0 +1,81 @@
+harbor:
+  - job_name: "harbor-core"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "harbor"
+          type: "core"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/harbor/core.log*
+  - job_name: "harbor-jobservice"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "harbor"
+          type: "jobservice"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/harbor/jobservice.log*
+  - job_name: "harbor-portal"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "harbor"
+          type: "portal"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/harbor/portal.log*
+  - job_name: "harbor-postgresql"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "harbor"
+          type: "postgresql"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/harbor/postgresql.log*
+  - job_name: "harbor-proxy"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "harbor"
+          type: "proxy"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/harbor/proxy.log*
+  - job_name: "harbor-redis"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "harbor"
+          type: "redis"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/harbor/redis.log*
+  - job_name: "harbor-registryctl"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "harbor"
+          type: "registryctl"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/harbor/registryctl.log*
+  - job_name: "harbor-registry"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "harbor"
+          type: "registry"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/harbor/registry.log*

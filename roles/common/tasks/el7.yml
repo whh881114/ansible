@@ -1,0 +1,17 @@
+---
+- name: register rhsm
+  shell: |
+    set -o pipefail && curl -sS --insecure 'https://central-server.freedom.org/register?activation_keys=CentOS-7-x86_64&force=true&location_id=2&organization_id=1&update_packages=false' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3MjE4Nzc2MzcsImp0aSI6IjNmZGY1NjI1MzY3NzQ0YmJkYzhmZjczMzVmODU5YWJlNTAxMjY3NjdlODcyODgzMmE2ZmQzZTkxNDBjNjk2ODIiLCJzY29wZSI6InJlZ2lzdHJhdGlvbiNnbG9iYWwgcmVnaXN0cmF0aW9uI2hvc3QifQ.cYQhHPQ5q7N_3V4G0EDDJ_0mVEeaIBIV6lfl24bEUAE' | bash
+  ignore_errors: true
+
+- name: install common rpm package
+  yum:
+    name: "{{ pkgs }}"
+    state: present
+
+- name: set ulimit in limits.conf
+  blockinfile:
+    path: /etc/security/limits.conf
+    block: |
+      * soft nofile 100000
+      * hard nofile 100001

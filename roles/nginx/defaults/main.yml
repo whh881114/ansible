@@ -1,0 +1,4 @@
+---
+pkgs:
+  - nginx
+  - nginx-*

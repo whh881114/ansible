@@ -1,0 +1,16 @@
+---
+- name: install packages
+  yum:
+    name: "{{ pkgs }}"
+    state: present
+    disable_gpg_check: yes
+
+- name: configure grafana
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: grafana.ini, dest: /etc/grafana/grafana.ini }
+  notify:
+    - systemctl-daemon-reload
+    - restart-grafana-server

@@ -1,0 +1,11 @@
+---
+pkgs:
+  - jq
+  - sysstat
+  - net-tools
+  - iotop
+  - atop
+  - telnet
+  - expect
+  - iproute
+  - nfs-utils
