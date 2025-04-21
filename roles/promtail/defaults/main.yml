@@ -4,6 +4,6 @@ pkgs:
 
 position_file: "/etc/promtail/positions.yaml"
 
-loki_server: "http://central-server.freedom.org:3100/loki/api/v1/push"
+loki_server: "https://loki.idc-ingress-nginx-lan.roywong.work/loki/api/v1/push"
 
 scrape_projects: []
