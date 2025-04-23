@@ -38,6 +38,6 @@
     group: root
     mode: '0600'
 
-- name: 'reload audit rules'
+- name: 'load audit rules'
   shell:
-    cmd: auditctl -D && auditctl -R /etc/audit/audit.rules
+    cmd: augenrules --load
