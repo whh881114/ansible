@@ -40,4 +40,4 @@
 
 - name: 'reload audit rules'
   shell:
-    cmd: auditctl -R /etc/audit/audit.rules
+    cmd: auditctl -D && auditctl -R /etc/audit/audit.rules
