@@ -29,3 +29,15 @@
   lineinfile:
     path: /etc/profile
     line: "TMOUT=600"
+
+- name: 'copy audit rules file'
+  copy:
+    src: server.rules
+    dest: /etc/audit/rules.d/server.rules
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: 'reload audit rules'
+  shell:
+    cmd: auditctl -R /etc/audit/audit.rules

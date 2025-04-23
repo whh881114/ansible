@@ -1,0 +1,24 @@
+## 场景1：用户与认证相关 (identity)
+# 监控 /etc/passwd、/etc/shadow、/etc/group 的写入与属性变更
+-w /etc/passwd  -p wa  -k identity
+-w /etc/shadow -p wa  -k identity
+-w /etc/group   -p wa  -k identity
+
+## 场景2：SSH 配置变更 (ssh_config)
+# 监控 SSH 服务配置文件被修改
+-w /etc/ssh/sshd_config -p wa -k ssh_config
+
+## 场景3：文件权限/属主变更 (perm_change)
+# 审计所有 64 位/32 位进程的 chmod、chown 等系统调用
+-a always,exit -F arch=b64 -S chmod,fchmod,chown,fchown -k perm_change
+-a always,exit -F arch=b32 -S chmod,fchmod,chown,fchown -k perm_change
+
+## 场景4：文件删除或重命名 (file_delete)
+# 审计 unlink、unlinkat、rename、renameat 等系统调用
+-a always,exit -F arch=b64 -S unlink,unlinkat,rename,renameat -k file_delete
+-a always,exit -F arch=b32 -S unlink,unlinkat,rename,renameat -k file_delete
+
+## 场景5：提权操作 (privileged)
+# 监控 sudo 与 su 命令的执行
+-w /usr/bin/sudo -p x -k privileged
+-w /bin/su       -p x -k privileged
