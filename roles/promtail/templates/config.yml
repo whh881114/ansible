@@ -32,6 +32,16 @@ scrape_configs:
           hostname: "{{ ansible_fqdn }}"
           __path__: /var/log/secure*
 
+  - job_name: "audit"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          app: "audit"
+          ip: "{{ ansible_default_ipv4.address }}"
+          hostname: "{{ ansible_fqdn }}"
+          __path__: /var/log/audit/audit.log*
+
   - job_name: zabbix-agent
     static_configs:
       - targets:
