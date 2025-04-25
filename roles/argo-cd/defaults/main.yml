@@ -9,3 +9,6 @@ app: argocd
 namespace: argocd
 
 # argocdServerAdminPassword: A8m~zgqgz+utrd%Y8b
+
+install: false
+update: false
