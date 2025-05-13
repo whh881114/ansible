@@ -10,5 +10,6 @@ namespace: argocd
 
 # argocdServerAdminPassword: A8m~zgqgz+utrd%Y8b
 
+uninstall: false
 install: false
-update: false
+upgrade: false
