@@ -14,13 +14,22 @@
   with_items:
     - { src: "values.yaml", dest: "{{ pkg_root_dir }}/values.yaml" }
 
-- name: "install {{ app }}"
+- name: "uninstall {{ app }}"
   shell: |
     export KUBECONFIG=/etc/kubernetes/admin.conf
     helm uninstall {{ app }} --namespace {{ namespace }}
     kubectl delete crds applications.argoproj.io
     kubectl delete crds applicationsets.argoproj.io
     kubectl delete crds appprojects.argoproj.io
+  args:
+    chdir: "{{ pkg_root_dir }}"
+  ignore_errors: yes
+  register: uninstall_log
+  when: uninstall
+
+- name: "install {{ app }}"
+  shell: |
+    export KUBECONFIG=/etc/kubernetes/admin.conf
     helm install --values values.yaml --create-namespace --namespace {{ namespace }} {{ app }} .
   args:
     chdir: "{{ pkg_root_dir }}"
@@ -35,12 +44,15 @@
   args:
     chdir: "{{ pkg_root_dir }}"
   ignore_errors: yes
-  register: install_log
+  register: update_log
   when: update
 
-- name: "install {{ app }} log"
+- name: "show {{ app }} log"
   debug:
     msg:
+      - "{{ uninstall_log.stdout_lines }}"
+      - "{{ uninstall_log.stderr_lines }}"
       - "{{ install_log.stdout_lines }}"
       - "{{ install_log.stderr_lines }}"
-
+      - "{{ update_log.stdout_lines }}"
+      - "{{ update_log.stderr_lines }}"
