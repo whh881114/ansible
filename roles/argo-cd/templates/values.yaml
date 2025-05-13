@@ -398,12 +398,6 @@ configs:
     plugins:
       jsonnet:
         version: 0.21.0
-        init:
-          command: [sh]
-          args:
-            - |
-              wget "ftp://central-server.freedom.org/go-jsonnet_0.21.0_Linux_x86_64.tar.gz" -O go-jsonnet_0.21.0_Linux_x86_64.tar.gz
-              tar xf go-jsonnet_0.21.0_Linux_x86_64.tar.gz
         generate:
           command: [sh, -c]
           args:
@@ -414,7 +408,7 @@ configs:
               JSONNET_FILE="${PARAM_JSONNET_FILE:?jsonnet-file param not set}"
         
               # 2. 渲染 Jsonnet
-              ./jsonnet "$JSONNET_FILE" > values-rendered.yaml
+              jsonnet "$JSONNET_FILE" > values-rendered.yaml
         
               # 3. 调用 Helm 渲染
               helm template . \
