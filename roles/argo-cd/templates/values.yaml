@@ -55,9 +55,9 @@ global:
   # Default image used by all components
   image:
     # -- If defined, a repository applied to all Argo CD deployments
-    repository: "[[ registry ]]/quay.io/argoproj/argocd"
+    repository: "[[ registry ]]/public/argocd"
     # -- Overrides the global Argo CD image tag whose default is the chart appVersion
-    tag: "v2.12.1"
+    tag: "argocd:v2.12.1-2025-05-14"
     # -- If defined, a imagePullPolicy applied to all Argo CD deployments
     imagePullPolicy: IfNotPresent
 
