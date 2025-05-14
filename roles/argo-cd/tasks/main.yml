@@ -50,9 +50,9 @@
 - name: "show {{ app }} log"
   debug:
     msg:
-      - "{{ uninstall_log.stdout_lines }}"
-      - "{{ uninstall_log.stderr_lines }}"
-      - "{{ install_log.stdout_lines }}"
-      - "{{ install_log.stderr_lines }}"
-      - "{{ upgrade_log.stdout_lines }}"
-      - "{{ upgrade_log.stderr_lines }}"
+      - "{{ uninstall_log.stdout_lines | default(['<no uninstall stdout log>']) }}"
+      - "{{ uninstall_log.stderr_lines | default(['<no uninstall stderr log>']) }}"
+      - "{{ install_log.stdout_lines | default(['<no install stdout log>'])>']) }}"
+      - "{{ install_log.stderr_lines | default(['<no install stderr log>']) }}"
+      - "{{ upgrade_log.stdout_lines | default(['<no upgrade stdout log>'])>']) }}"
+      - "{{ upgrade_log.stderr_lines | default(['<no upgrade stderr log>']) }}"
