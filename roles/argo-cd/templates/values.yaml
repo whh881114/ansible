@@ -2399,12 +2399,12 @@ repoServer:
   name: repo-server
 
   # -- The number of repo server pods to run
-  replicas: 10
+  replicas: 3
 
   ## Repo server Horizontal Pod Autoscaler
   autoscaling:
     # -- Enable Horizontal Pod Autoscaler ([HPA]) for the repo server
-    enabled: true
+    enabled: false
     # -- Minimum number of replicas for the repo server [HPA]
     minReplicas: 3
     # -- Maximum number of replicas for the repo server [HPA]
