@@ -2546,7 +2546,19 @@ repoServer:
   initContainers: []
 
   # -- Additional volumeMounts to the repo server main container
-  volumeMounts: []
+  volumeMounts:
+    - name: var-files
+      emptyDir: {}
+    - name: plugins
+      emptyDir: {}
+    - name: cmp-tmp
+      emptyDir: {}
+    - name: argocd-cmp-cm
+      configMap:
+        name: argocd-cmp-cm
+        items:
+          - key: argocd-cmp-jsonnet.yaml
+            path: argocd-cmp-jsonnet.yaml
 
   # -- Additional volumes to the repo server pod
   volumes:
