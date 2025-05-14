@@ -395,7 +395,22 @@ configs:
     annotations: {}
 
     # -- Plugin yaml files to be added to argocd-cmp-cm
-    plugins: {}
+    plugins:
+      jsonnet:
+        generate:
+          command: [sh, -c]
+          args:
+            - |
+              set -eux
+              
+              # 1. 直接拿 env var，Argo CD 会自动注入
+              JSONNET_FILE="${PARAM_JSONNET_FILE:?jsonnet-file param not set}"
+        
+              # 2. 渲染 Jsonnet
+              jsonnet "$JSONNET_FILE"| yq_linux_amd64 -P > values-rendered.yaml 
+        
+              # 3. 调用 Helm 渲染
+              helm template . --values values-rendered.yaml
       # --- First plugin
       # my-plugin:
       #   init:
@@ -2464,7 +2479,28 @@ repoServer:
   # -- Additional containers to be added to the repo server pod
   ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/config-management-plugins/
   ## Note: Supports use of custom Helm templates
-  extraContainers: []
+  extraContainers:
+    - name: argocd-cmp-jsonnet
+      image: harbor.idc.roywong.work/public/argocd:latest
+      command:
+        - /var/run/argocd/argocd-cmp-server
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        # 必需：用于和主 repo-server 共享请求/响应的 socket 文件
+        - name: var-files
+          mountPath: /var/run/argocd
+        # 必需：插件运行时的“插件根目录”，可以是 emptyDir
+        - name: plugins
+          mountPath: /home/argocd/cmp-server/plugins
+        # 必需：把你的 plugin 定义（jsonnet.yaml）挂载进来
+        - name: argocd-cmp-cm
+          mountPath: /home/argocd/cmp-server/config/jsonnet.yaml
+          subPath: jsonnet.yaml
+        # 必需：隔离 tmp，防止路径遍历攻击
+        - name: cmp-tmp
+          mountPath: /tmp
     # - name: cmp-my-plugin
     #   command:
     #     - "/var/run/argocd/argocd-cmp-server"
@@ -2513,7 +2549,16 @@ repoServer:
   volumeMounts: []
 
   # -- Additional volumes to the repo server pod
-  volumes: []
+  volumes:
+    - name: var-files
+      emptyDir: {}
+    - name: plugins
+      emptyDir: {}
+    - name: cmp-tmp
+      emptyDir: {}
+    - name: argocd-cmp-cm
+      configMap:
+        name: argocd-cmp-cm
   #  - name: argocd-cmp-cm
   #    configMap:
   #      name: argocd-cmp-cm
