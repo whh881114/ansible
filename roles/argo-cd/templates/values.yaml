@@ -2483,8 +2483,9 @@ repoServer:
   ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/config-management-plugins/
   ## Note: Supports use of custom Helm templates
   extraContainers:
-    - name: cmp-jsonnet
-      image: harbor.idc.roywong.work/library/argocd-cmp-jsonnet:1.0
+    - name: argocd-cmp-jsonnet
+      # image: harbor.idc.roywong.work/library/argocd-cmp-jsonnet:1.0
+      image: harbor.idc.roywong.work/public/argocd:v2.12.1-2025-05-14-v1.1
       command: ["/var/run/argocd/argocd-cmp-server"]
       securityContext:
         runAsNonRoot: true
