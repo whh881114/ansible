@@ -13,8 +13,8 @@ service_cidr: 10.252.0.0/16
 api_server: "apiserver.k8s.freedom.org:6443"
 
 
-### ingress-nginx，默认使用类为ingress-nginx-lan
-ingress_nginx_class_name: nginx
+### ingress-nginx
+ingress_nginx_class_name: ingress-nginx-lan
 ingress_nginx_domain_name: "idc-ingress-nginx-lan.roywong.work"
 ingress_nginx_tls_name: tls-wildcard-idc-ingress-nginx-lan-roywong-work
 
