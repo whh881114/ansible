@@ -2496,7 +2496,7 @@ repoServer:
           mountPath: /home/argocd/cmp-server/plugins
         # 必需：把你的 plugin 定义（jsonnet.yaml）挂载进来
         - name: argocd-cmp-cm
-          mountPath: /home/argocd/cmp-server/config/jsonnet.yaml
+          mountPath: /home/argocd/cmp-server/config/plugin.yaml
           subPath: jsonnet.yaml
         # 必需：隔离 tmp，防止路径遍历攻击
         - name: cmp-tmp
