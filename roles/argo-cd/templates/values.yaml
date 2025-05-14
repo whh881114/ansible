@@ -2481,7 +2481,7 @@ repoServer:
   ## Note: Supports use of custom Helm templates
   extraContainers:
     - name: argocd-cmp-jsonnet
-      image: harbor.idc.roywong.work/public/argocd:latest
+      image: harbor.idc.roywong.work/public/argocd-cmp-jsonnet:latest
       command:
         - /var/run/argocd/argocd-cmp-server
       securityContext:
