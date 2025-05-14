@@ -389,31 +389,13 @@ configs:
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/
   cmp:
     # -- Create the argocd-cmp-cm configmap
-    create: true
+    create: false
 
     # -- Annotations to be added to argocd-cmp-cm configmap
     annotations: {}
 
     # -- Plugin yaml files to be added to argocd-cmp-cm
-    plugins:
-      jsonnet:
-        generate:
-          command: [sh, -c]
-          args:
-            - |
-              set -eux
-              
-              # 1. 直接拿 env var，Argo CD 会自动注入
-              JSONNET_FILE="${PARAM_JSONNET_FILE:?jsonnet-file param not set}"
-        
-              # 2. 渲染 Jsonnet
-              jsonnet "$JSONNET_FILE" > values-rendered.yaml
-        
-              # 3. 调用 Helm 渲染
-              helm template . \
-                --name-template="$ARGOCD_APP_NAME" \
-                --namespace="$ARGOCD_APP_NAMESPACE" \
-                --values values-rendered.yaml
+    plugins: {}
       # --- First plugin
       # my-plugin:
       #   init:
@@ -2482,24 +2464,7 @@ repoServer:
   # -- Additional containers to be added to the repo server pod
   ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/config-management-plugins/
   ## Note: Supports use of custom Helm templates
-  extraContainers:
-    - name: argocd-cmp-jsonnet
-      # image: harbor.idc.roywong.work/library/argocd-cmp-jsonnet:1.0
-      image: harbor.idc.roywong.work/public/argocd:v2.12.1-2025-05-14-v1.1
-      command: ["/var/run/argocd/argocd-cmp-server"]
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 999
-      volumeMounts:
-        - name: var-files
-          mountPath: /var/run/argocd
-        - name: plugins
-          mountPath: /home/argocd/cmp-server/plugins
-        - name: argocd-cmp-cm
-          mountPath: /home/argocd/cmp-server/config/jsonnet.yaml
-          subPath: jsonnet.yaml
-        - name: cmp-tmp
-          mountPath: /tmp
+  extraContainers: {}
     # - name: cmp-my-plugin
     #   command:
     #     - "/var/run/argocd/argocd-cmp-server"
@@ -2549,15 +2514,6 @@ repoServer:
 
   # -- Additional volumes to the repo server pod
   volumes:
-    - name: cmp-tmp
-      emptyDir: {}
-    - name: plugins
-      emptyDir: {}
-    - name: var-files
-      emptyDir: {}
-    - name: argocd-cmp-cm
-      configMap:
-        name: argocd-cmp-cm
   #  - name: argocd-cmp-cm
   #    configMap:
   #      name: argocd-cmp-cm
