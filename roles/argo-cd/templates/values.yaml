@@ -57,7 +57,7 @@ global:
     # -- If defined, a repository applied to all Argo CD deployments
     repository: "[[ registry ]]/public/argocd"
     # -- Overrides the global Argo CD image tag whose default is the chart appVersion
-    tag: "argocd:v2.12.1-2025-05-14"
+    tag: "v2.12.1-2025-05-14"
     # -- If defined, a imagePullPolicy applied to all Argo CD deployments
     imagePullPolicy: IfNotPresent
 
