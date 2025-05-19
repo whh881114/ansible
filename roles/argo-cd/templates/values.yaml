@@ -396,7 +396,7 @@ configs:
 
     # -- Plugin yaml files to be added to argocd-cmp-cm
     plugins:
-      argocd-cmp-jsonnet:
+      argocd-cmp-helm:
         generate:
           command: [sh, -c]
           args:
@@ -2480,8 +2480,8 @@ repoServer:
   ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/config-management-plugins/
   ## Note: Supports use of custom Helm templates
   extraContainers:
-    - name: argocd-cmp-jsonnet
-      image: harbor.idc.roywong.work/public/argocd-cmp-jsonnet:v2.12.1-2025-05-14-v1.3
+    - name: argocd-cmp-helm
+      image: harbor.idc.roywong.work/public/argocd-cmp-helm:v2.12.1-2025-05-14-v1.3
       imagePullPolicy: Always
       command:
         - /var/run/argocd/argocd-cmp-server
@@ -2498,7 +2498,7 @@ repoServer:
         # 必需：把你的 plugin 定义（jsonnet.yaml）挂载进来
         - name: argocd-cmp-cm
           mountPath: /home/argocd/cmp-server/config/plugin.yaml
-          subPath: argocd-cmp-jsonnet.yaml
+          subPath: argocd-cmp-helm.yaml
         # 必需：隔离 tmp，防止路径遍历攻击
         - name: cmp-tmp
           mountPath: /tmp
