@@ -2561,8 +2561,8 @@ repoServer:
       configMap:
         name: argocd-cmp-cm
         items:
-          - key: argocd-cmp-jsonnet.yaml
-            path: argocd-cmp-jsonnet.yaml
+          - key: argocd-cmp-helm.yaml
+            path: argocd-cmp-helm.yaml
   #  - name: argocd-cmp-cm
   #    configMap:
   #      name: argocd-cmp-cm
