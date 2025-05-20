@@ -195,6 +195,14 @@ configs:
     ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/status-badge/
     statusbadge.enabled: false
 
+    ########
+    ## 自定义本地用户，用于刷新application状态，用户名为"refresh-user"，密码为"tjgf^oXqhOycy|kxgtdemlae18d^oyge"。
+    accounts.refresh-user: |
+      apikey: "tjgf^oXqhOycy|kxgtdemlae18d^oyge"
+    policy.csv: |
+      p, refresh-user, applications, refresh, */*, allow
+    ########
+
     # Dex configuration
     # dex.config: |
     #   connectors:
