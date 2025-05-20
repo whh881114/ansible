@@ -196,9 +196,8 @@ configs:
     statusbadge.enabled: false
 
     ########
-    ## 自定义本地用户，用于刷新application状态，用户名为"refresh-user"，密码为"tjgf^oXqhOycy|kxgtdemlae18d^oyge"。
-    accounts.refresh-user: |
-      apikey: "tjgf^oXqhOycy|kxgtdemlae18d^oyge"
+    ## 自定义本地用户，用于刷新application状态，用户名为"refresh-user"。
+    accounts.refresh-user: apiKey, login
     policy.csv: |
       p, refresh-user, applications, refresh, */*, allow
     ########
@@ -577,7 +576,8 @@ configs:
     ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
     ## Note that all values must be non-empty.
     extra:
-      {}
+      # 密码为"tjgf^oXqhOycy|kxgtdemlae18d^oyge"。
+      refresh-user.password: "$2a$10$kuaL3Nf924XwCIrqkS.6SOU/s3f4NC8WK0RC2yxD.nbQ27hyPP2Iq"
       # LDAP_PASSWORD: "mypassword"
 
     # -- Bcrypt hashed admin password
