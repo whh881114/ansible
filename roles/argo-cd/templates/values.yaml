@@ -577,7 +577,7 @@ configs:
     ## Note that all values must be non-empty.
     extra:
       # 密码为"tjgf^oXqhOycy|kxgtdemlae18d^oyge"。
-      refresh-user.password: "$2a$10$kuaL3Nf924XwCIrqkS.6SOU/s3f4NC8WK0RC2yxD.nbQ27hyPP2Iq"
+      refresh-user.password: "$2a$10$joKRMPWGHSCYt1vHE3Ai7ePlkjILYxnR5J6T5xoxuyLngT5FWW9Lm"
       # LDAP_PASSWORD: "mypassword"
 
     # -- Bcrypt hashed admin password
