@@ -198,12 +198,6 @@ configs:
     ########
     ## 自定义本地用户，用于刷新application状态，用户名为"refresh-user"。
     accounts.refresh-user: apiKey, login
-    policy.csv: |
-      p, refresh-user, projects, get, *, allow
-      p, refresh-user, projects, list, *, allow
-      p, refresh-user, applications, get, *, allow
-      p, refresh-user, applications, list, *, allow
-      p, refresh-user, applications, refresh, */*, allow
     ########
 
     # Dex configuration
@@ -320,7 +314,12 @@ configs:
 
     # -- File containing user-defined policies and role definitions.
     # @default -- `''` (See [values.yaml])
-    policy.csv: ''
+    policy.csv: |
+      p, refresh-user, projects, get, *, allow
+      p, refresh-user, projects, list, *, allow
+      p, refresh-user, applications, get, *, allow
+      p, refresh-user, applications, list, *, allow
+      p, refresh-user, applications, refresh, *, allow
     # Policy rules are in the form:
     #  p, subject, resource, action, object, effect
     # Role definitions and bindings are in the form:
