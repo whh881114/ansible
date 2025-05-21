@@ -418,7 +418,29 @@ configs:
               JSONNET_FILE="${PARAM_JSONNET_FILE:?jsonnet-file param not set}"
         
               # 2. 渲染 Jsonnet
-              jsonnet "$JSONNET_FILE"| yq_linux_amd64 -P > values-rendered.yaml 
+              jsonnet "$JSONNET_FILE" | yq_linux_amd64 -P > values-rendered.yaml 
+        
+              # 3. 调用 Helm 渲染
+              helm template . --values values-rendered.yaml
+      argocd-cmp-java:
+        generate:
+          command: [sh, -c]
+          args:
+            - |
+              set -eux
+              
+              # 直接拿 env var，Argo CD 会自动注入
+              JSONNET_FILE="${PARAM_JSONNET_FILE:?jsonnet-file param not set}"
+              REGISTRY="${PARAM_REGISTRY:?registry param not set}"
+              PROJECT="${PARAM_PROJECT:?project param not set}"
+              IMAGE="${PARAM_IMAGE:?image param not set}"
+              TAG="${PARAM_TAG:?tag param not set}"
+              
+              # 访问docker-image-tag.devops，获取到最新或者指定的tag。
+              
+        
+              # 渲染 Jsonnet，传入外部变量。
+              jsonnet "$JSONNET_FILE" --ext-str image=${IMAGE} --ext-str tag=${TAG} | yq_linux_amd64 -P > values-rendered.yaml 
         
               # 3. 调用 Helm 渲染
               helm template . --values values-rendered.yaml
