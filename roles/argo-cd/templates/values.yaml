@@ -199,7 +199,10 @@ configs:
     ## 自定义本地用户，用于刷新application状态，用户名为"refresh-user"。
     accounts.refresh-user: apiKey, login
     policy.csv: |
+      p, refresh-user, projects, get, *, allow
+      p, refresh-user, projects, list, *, allow
       p, refresh-user, applications, get, *, allow
+      p, refresh-user, applications, list, *, allow
       p, refresh-user, applications, refresh, */*, allow
     ########
 
