@@ -422,7 +422,7 @@ configs:
         
               # 3. 调用 Helm 渲染
               helm template . --values values-rendered.yaml
-      argocd-cmp-java:
+      argocd-cmp-jsonnet:
         generate:
           command: [sh, -c]
           args:
@@ -437,13 +437,10 @@ configs:
               TAG="${PARAM_TAG:?tag param not set}"
               
               # 访问docker-image-tag.devops，获取到最新或者指定的tag。
-              
+              NEW_TAG=$(curl "docker-image-tag.devops?project=${PROJECT}&image=${IMAGE}&tag=${TAG}" | yq_linux_amd64 '.tag')
         
               # 渲染 Jsonnet，传入外部变量。
-              jsonnet "$JSONNET_FILE" --ext-str image=${IMAGE} --ext-str tag=${TAG} | yq_linux_amd64 -P > values-rendered.yaml 
-        
-              # 3. 调用 Helm 渲染
-              helm template . --values values-rendered.yaml
+              jsonnet "$JSONNET_FILE" --ext-str image=${REGISTRY}/${PROJECT}/${IMAGE} --ext-str tag=${NEW_TAG}
       # --- First plugin
       # my-plugin:
       #   init:
@@ -2513,6 +2510,28 @@ repoServer:
   ## Note: Supports use of custom Helm templates
   extraContainers:
     - name: argocd-cmp-helm
+      image: harbor.idc.roywong.work/public/argocd-cmp-helm:v2.12.1-2025-05-14-v1.3
+      imagePullPolicy: Always
+      command:
+        - /var/run/argocd/argocd-cmp-server
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        # 必需：用于和主 repo-server 共享请求/响应的 socket 文件
+        - name: var-files
+          mountPath: /var/run/argocd
+        # 必需：插件运行时的“插件根目录”，可以是 emptyDir
+        - name: plugins
+          mountPath: /home/argocd/cmp-server/plugins
+        # 必需：把你的 plugin 定义（jsonnet.yaml）挂载进来
+        - name: argocd-cmp-cm
+          mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          subPath: argocd-cmp-helm.yaml
+        # 必需：隔离 tmp，防止路径遍历攻击
+        - name: cmp-tmp
+          mountPath: /tmp
+    - name: argocd-cmp-jsonnet
       image: harbor.idc.roywong.work/public/argocd-cmp-helm:v2.12.1-2025-05-14-v1.3
       imagePullPolicy: Always
       command:
