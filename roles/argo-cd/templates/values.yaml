@@ -439,11 +439,9 @@ configs:
               # 访问docker-image-tag.devops，获取到最新或者指定的tag。
               NEW_TAG=$(curl "docker-image-tag.devops?project=${PROJECT}&image=${IMAGE}&tag=${TAG}" | yq '.tag')
         
-              # 渲染 Jsonnet，传入外部变量，需要导出结果到文件。
-              jsonnet "$JSONNET_FILE" --ext-str image=${REGISTRY}/${PROJECT}/${IMAGE} --ext-str tag=${NEW_TAG} | yq -P > application.yaml
-              
-              # 查看jsonnet渲染文件。
-              cat application.yaml
+              # 渲染 Jsonnet，传入外部变量。
+              jsonnet "$JSONNET_FILE" --ext-str image=${REGISTRY}/${PROJECT}/${IMAGE} --ext-str tag=${NEW_TAG}
+
       # --- First plugin
       # my-plugin:
       #   init:
