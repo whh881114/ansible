@@ -418,7 +418,7 @@ configs:
               JSONNET_FILE="${PARAM_JSONNET_FILE:?jsonnet-file param not set}"
         
               # 2. 渲染 Jsonnet
-              jsonnet "$JSONNET_FILE" | yq_linux_amd64 -P > values-rendered.yaml 
+              jsonnet "$JSONNET_FILE" | yq -P > values-rendered.yaml
         
               # 3. 调用 Helm 渲染
               helm template . --values values-rendered.yaml
@@ -437,10 +437,10 @@ configs:
               TAG="${PARAM_TAG:?tag param not set}"
               
               # 访问docker-image-tag.devops，获取到最新或者指定的tag。
-              NEW_TAG=$(curl "docker-image-tag.devops?project=${PROJECT}&image=${IMAGE}&tag=${TAG}" | yq_linux_amd64 '.tag')
+              NEW_TAG=$(curl "docker-image-tag.devops?project=${PROJECT}&image=${IMAGE}&tag=${TAG}" | yq '.tag')
         
               # 渲染 Jsonnet，传入外部变量。
-              jsonnet "$JSONNET_FILE" --ext-str image=${REGISTRY}/${PROJECT}/${IMAGE} --ext-str tag=${NEW_TAG} | yq_linux_adm64 -P
+              jsonnet "$JSONNET_FILE" --ext-str image=${REGISTRY}/${PROJECT}/${IMAGE} --ext-str tag=${NEW_TAG} | yq -P
       # --- First plugin
       # my-plugin:
       #   init:
@@ -2510,7 +2510,7 @@ repoServer:
   ## Note: Supports use of custom Helm templates
   extraContainers:
     - name: argocd-cmp-helm
-      image: harbor.idc.roywong.work/public/argocd-cmp-helm:v2.12.1-2025-05-14-v1.3
+      image: harbor.idc.roywong.work/public/argocd-cmp:v2.12.1-2025-05-22-v1.0
       imagePullPolicy: Always
       command:
         - /var/run/argocd/argocd-cmp-server
@@ -2532,7 +2532,7 @@ repoServer:
         - name: cmp-tmp
           mountPath: /tmp
     - name: argocd-cmp-jsonnet
-      image: harbor.idc.roywong.work/public/argocd-cmp-helm:v2.12.1-2025-05-14-v1.3
+      image: harbor.idc.roywong.work/public/argocd-cmp:v2.12.1-2025-05-22-v1.0
       imagePullPolicy: Always
       command:
         - /var/run/argocd/argocd-cmp-server
