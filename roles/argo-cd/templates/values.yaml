@@ -440,7 +440,9 @@ configs:
               NEW_TAG=$(curl "docker-image-tag.devops?project=${PROJECT}&image=${IMAGE}&tag=${TAG}" | yq '.tag')
         
               # 渲染 Jsonnet，传入外部变量。
-              jsonnet "$JSONNET_FILE" --ext-str image=${REGISTRY}/${PROJECT}/${IMAGE} --ext-str tag=${NEW_TAG} | yq -P
+              jsonnet "$JSONNET_FILE" --ext-str image=${REGISTRY}/${PROJECT}/${IMAGE} --ext-str tag=${NEW_TAG} | yq -P > 1.yaml
+              
+              cat 1.yaml
       # --- First plugin
       # my-plugin:
       #   init:
