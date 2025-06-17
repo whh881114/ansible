@@ -1,3 +1,8 @@
 {
-  "data-root": "{{ data_root_dir }}"
+  "data-root": "{{ data_root_dir }}",
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m",
+    "max-file": "5"
+  }
 }
