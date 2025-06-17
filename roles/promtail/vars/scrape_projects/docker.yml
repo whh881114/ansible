@@ -1,12 +1,5 @@
 docker:
   - job_name: docker
-    static_configs:
-      - targets:
-          - localhost
-        labels:
-          ip: "{{ ansible_default_ipv4.address }}"
-          hostname: "{{ ansible_fqdn }}"
-
     docker_sd_configs:
       - host: unix:///var/run/docker.sock
 
@@ -19,3 +12,9 @@ docker:
 
       - source_labels: [__meta_docker_container_log_stream]
         target_label: container_log_stream
+
+      - target_label: hostname
+        replacement: "{{ ansible_fqdn }}"
+
+      - target_label: ip
+        replacement: "{{ ansible_default_ipv4.address }}"
