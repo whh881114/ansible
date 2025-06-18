@@ -8,7 +8,7 @@
 
 - name: copy https certificate files
   copy:
-    src: "/root/.acme.sh/{{ item }}"
+    src: "{{ certs_dir }}/{{ item }}"
     dest: "{{ certs_dir }}"
   with_items:
     - "{{ certs }}"
