@@ -1,4 +1,6 @@
 ---
 certs:
-  - /etc/ssl/certs/idc.roywong.work.cer
-  - /etc/ssl/certs/idc.roywong.work.key
+  - /etc/ssl/certs/wildcard.idc.roywong.work.cer
+  - /etc/ssl/certs/wildcard.idc.roywong.work.ca.cer
+  - /etc/ssl/certs/wildcard.idc.roywong.work.key
+  - /etc/ssl/certs/wildcard.idc.roywong.work.fullchain.cer
