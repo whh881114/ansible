@@ -6,9 +6,9 @@
   loop:
     - "{{ certs_dir }}"
 
-- name: synchronize https certificate files
-  synchronize:
+- name: copy https certificate files
+  copy:
     src: "/root/.acme.sh/{{ item }}"
     dest: "{{ certs_dir }}"
   with_items:
-    - "{{ domains }}"
+    - "{{ certs }}"

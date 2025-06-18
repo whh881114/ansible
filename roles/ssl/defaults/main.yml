@@ -1,4 +1,4 @@
 ---
-domains:
-  - "*.idc.roywong.work"
-  - "*.idc.bghdkj.com"
+certs:
+  - /etc/ssl/certs/idc.roywong.work.cer
+  - /etc/ssl/certs/idc.roywong.work.key
