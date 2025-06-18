@@ -8,7 +8,7 @@
 
 - name: copy https certificate files
   copy:
-    src: "{{ certs_dir }}/{{ item }}"
+    src: "{{ item }}"
     dest: "{{ certs_dir }}"
   with_items:
     - "{{ certs }}"
