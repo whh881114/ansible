@@ -1,0 +1,31 @@
+---
+- name: kubernetes common
+  hosts:
+    - 10.248.0.1
+  user: root
+  roles:
+    - role: common
+      tags:
+        - common
+
+    - role: zabbix-agent2
+      tags:
+        - zabbix
+        - zabbix-agent
+        - zabbix-agent2
+
+    - role: docker
+      tags:
+        - docker
+
+    - role: docker-image
+      tags:
+        - docker-image
+      vars:
+        projects:
+          - kubernetes
+
+    - role: kubernetes-requisite
+      tags:
+        - kubernetes
+        - k8s
