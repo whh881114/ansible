@@ -4,6 +4,7 @@
     - 10.250.0.1
   user: root
   roles:
+    # 第一步，安装以下角色，common, zabbix, docker
     - role: common
       tags:
         - common
@@ -18,6 +19,7 @@
       tags:
         - docker
 
+    # 第二步，安装以下角色，docker-image, kubernetes-requisite
     - role: docker-image
       tags:
         - docker-image
@@ -27,5 +29,20 @@
 
     - role: kubernetes-requisite
       tags:
+        - kubernetes-requisite
+        - k8s-requisite
+
+    # 第三步，安装以下角色，kubernetes, helm, cilium
+    - role: kubernetes
+      tags:
         - kubernetes
         - k8s
+
+    - role: helm
+      tags:
+        - helm
+
+    - role: cilium
+      tags:
+        - cilium
+        - cni
